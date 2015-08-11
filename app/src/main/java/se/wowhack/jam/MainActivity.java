@@ -2,6 +2,7 @@ package se.wowhack.jam;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -14,6 +15,7 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +24,12 @@ import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
-import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import se.wowhack.jam.Utils.Backend;
 import se.wowhack.jam.models.Playlist;
+import se.wowhack.jam.models.ProgressBarAnimation;
 
 public class MainActivity extends Activity implements
         PlayerNotificationCallback, ConnectionStateCallback {
@@ -62,17 +63,15 @@ public class MainActivity extends Activity implements
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
-        findViewById(R.id.gotoAlarm).setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                //gotoAlarm();
-            }
-        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
+                final ProgressBar progressBar = ((ProgressBar) findViewById(R.id.progressBar));
+        ProgressBarAnimation anim = new ProgressBarAnimation(progressBar, 1000, 1);
+        progressBar.startAnimation(anim);
         //Check if result comes from the correct activity
         if(requestCode == REQUEST_CODE){
             final AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
@@ -93,6 +92,7 @@ public class MainActivity extends Activity implements
                                     Playlist temp = new Playlist(list.id, null, list.name);
                                     playLists.add(temp);
                                 }
+                                progressBar.clearAnimation();
                                 gotoAlarm(playLists, userPrivate.id, response.getAccessToken());
                             }
 
@@ -180,13 +180,6 @@ public class MainActivity extends Activity implements
         Spotify.destroyPlayer(this);
         super.onDestroy();
 
-
-        findViewById(R.id.gotoAlarm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //gotoAlarm();
-            }
-        });
     }
 
     private void gotoAlarm(ArrayList<Playlist> playlists, String userId, String token) {
