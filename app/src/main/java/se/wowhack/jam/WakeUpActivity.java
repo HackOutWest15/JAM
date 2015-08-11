@@ -2,11 +2,15 @@ package se.wowhack.jam;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import se.wowhack.jam.util.SystemUiHider;
 
@@ -94,6 +98,7 @@ public class WakeUpActivity extends Activity {
                             delayedHide(AUTO_HIDE_DELAY_MILLIS);
                         }
                     }
+
                 });
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -105,6 +110,9 @@ public class WakeUpActivity extends Activity {
                 } else {
                     mSystemUiHider.show();
                 }
+
+
+
             }
         });
 
@@ -112,6 +120,16 @@ public class WakeUpActivity extends Activity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Tag");
+
+        wl.acquire();
     }
 
     @Override
