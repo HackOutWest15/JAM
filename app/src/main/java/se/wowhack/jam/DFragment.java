@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,13 @@ public class DFragment extends DialogFragment {
 
         // Get ListView object from xml
         listView = (ListView) rootView.findViewById(R.id.list);
+
+        alarmSwitchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // TODO: Fix this shit:   currentAlarm.setActive(isChecked);
+            }
+        });
 
         if (playlists != null) {
             // Defined Array values to show in ListView
