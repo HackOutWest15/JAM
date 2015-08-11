@@ -10,6 +10,9 @@ public class Playlist {
     private String id;
     private String name;
 
+    public Playlist(){
+
+    }
     public Playlist(String id, List<Track> tracks, String name){
         this.tracks = tracks;
         this.id = id;
