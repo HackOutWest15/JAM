@@ -1,4 +1,5 @@
 package se.wowhack.jam;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -7,14 +8,11 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -52,7 +50,8 @@ public class AlarmActivity extends FragmentActivity {
 
         savedPlaylist = null;
         /* Retrieve a PendingIntent that will perform a broadcast */
-        Intent alarmIntent = new Intent(AlarmActivity.this, AlarmReceiver.class);
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        alarmIntent.setAction("alarmAction");
         pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
 
         if(getIntent().getStringExtra("Userid") != null) {
@@ -152,6 +151,7 @@ public class AlarmActivity extends FragmentActivity {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
 
+
         /* Repeating on interval */
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 interval, pendingIntent);
@@ -182,14 +182,14 @@ public class AlarmActivity extends FragmentActivity {
                 1000 * 60, pendingIntent);
     }
     //Use this method to add the songs to the playlist
-    private void selectPlaylist(Playlist playlist1){
+    private void selectPlaylist(Playlist playlist1) {
         savedPlaylist = playlist1;
         spotify.getPlaylist(userId, playlist1.getId(), new Callback<kaaes.spotify.webapi.android.models.Playlist>() {
             @Override
             public void success(kaaes.spotify.webapi.android.models.Playlist playlist, Response response) {
                 List<Track> tracks = new ArrayList<Track>();
 
-                for(PlaylistTrack item :playlist.tracks.items){
+                for (PlaylistTrack item : playlist.tracks.items) {
                     tracks.add(new Track(item.track.name, item.track.uri, item.track.id));
                 }
                 savedPlaylist.setTracks(tracks);

@@ -2,20 +2,20 @@ package se.wowhack.jam;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.spotify.sdk.android.player.Config;
-import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
-import android.view.View;
-import android.widget.ProgressBar;
+import com.spotify.sdk.android.player.Spotify;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,8 +94,10 @@ public class MainActivity extends Activity implements
                             public void success(Pager<PlaylistSimple> playlistSimplePager, Response r) {
                                 List<PlaylistSimple> tempPlaylists = playlistSimplePager.items;
                                 for(PlaylistSimple list : tempPlaylists){
-                                    Playlist temp = new Playlist(list.id, null, list.name);
-                                    playLists.add(temp);
+                                    if(list.owner.id.equals(userPrivate.id)) {
+                                        Playlist temp = new Playlist(list.id, null, list.name);
+                                        playLists.add(temp);
+                                    }
                                 }
                                 progressBar.clearAnimation();
                                 gotoAlarm(playLists, userPrivate.id, response.getAccessToken());

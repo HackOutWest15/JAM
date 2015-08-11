@@ -1,10 +1,8 @@
 package se.wowhack.jam;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,9 +24,7 @@ public class WakeUpService extends Service {
         // We want this service to continue running until it is explicitly
         Toast.makeText(this, "I'm running", Toast.LENGTH_SHORT).show();
 
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Tag");
-        wl.acquire();
+
 
 
         Intent i = new Intent(this, WakeUpActivity.class);
