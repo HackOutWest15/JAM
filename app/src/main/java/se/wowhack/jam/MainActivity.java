@@ -94,7 +94,7 @@ public class MainActivity extends Activity implements
                             public void success(Pager<PlaylistSimple> playlistSimplePager, Response r) {
                                 List<PlaylistSimple> tempPlaylists = playlistSimplePager.items;
                                 for(PlaylistSimple list : tempPlaylists){
-                                    if(list.owner.equals(userPrivate.id)) {
+                                    if(list.owner.id.equals(userPrivate.id)) {
                                         Playlist temp = new Playlist(list.id, null, list.name);
                                         playLists.add(temp);
                                     }
