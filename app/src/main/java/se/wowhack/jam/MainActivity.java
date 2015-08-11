@@ -45,6 +45,12 @@ public class MainActivity extends Activity implements
                 gotoAlarm();
             }
         });
+
+        findViewById(R.id.gotoCards).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                gotoCards();
+            }
+        });
     }
 
     @Override
@@ -138,6 +144,11 @@ public class MainActivity extends Activity implements
 
     private void gotoAlarm() {
         Intent intent = new Intent(this, AlarmActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoCards() {
+        Intent intent = new Intent(this, CardsActivity.class);
         startActivity(intent);
     }
 }
