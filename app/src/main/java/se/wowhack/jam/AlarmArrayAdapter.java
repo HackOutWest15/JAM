@@ -66,9 +66,10 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
             if (alarmTimeView != null){
                 alarmTimeView.setText("" + i.getTime());
             }
+            /*
             if (alarmSwitchView != null){
                 alarmSwitchView.setChecked(i.isActive());
-            }
+            } */
             if (alarmDaysView != null){
                 alarmDaysView.setText("FIXA DETTA YO");
             }

@@ -1,12 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="5dp"
-    android:layout_margin="5dp">
+    card_view:cardElevation="5dp">
 
     <RelativeLayout
         android:focusable="false"
@@ -22,7 +22,7 @@
             android:textStyle="bold"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:text="13:37"
             android:layout_alignParentTop="true"/>
 
@@ -73,6 +73,17 @@
             android:text="Glöm inte att hänga tvätten i duschen på morgonen. Sen får du verkligen inte glömma att meditera."
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:layout_below="@+id/divider"/>
+
+        <ListView
+            android:layout_marginTop="15dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="15dp"
+            android:id="@+id/list"
+            android:layout_below="@id/alarmText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+        </ListView>
+
 
     </RelativeLayout>
 
