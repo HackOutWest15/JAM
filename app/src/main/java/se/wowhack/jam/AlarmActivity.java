@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,13 +34,15 @@ import se.wowhack.jam.models.Track;
 public class AlarmActivity extends FragmentActivity {
 
     private ListView listView;
-    private ArrayList<Alarm> alarms;
+    private ArrayList<Alarm> alarms = new ArrayList<>();
     private PendingIntent pendingIntent;
     private List<Playlist> playlists;
     private String userId;
     private SpotifyApi api;
     private SpotifyService spotify;
     private Playlist savedPlaylist;
+    private FragmentManager supportFragmentManager = getSupportFragmentManager();
+    private Alarm currentlyClickedAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,11 +132,13 @@ public class AlarmActivity extends FragmentActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Alarm clickedAlarm = alarms.get(position);
                 // TODO: Show fragment with info of this alarm
+                currentlyClickedAlarm = alarms.get(position);
+                DFragment dialogFragment  = new DFragment();
+                // Show Alert DialogFragment
+                dialogFragment.show(supportFragmentManager, "Albins fina dialog");
             }
         });
-
     }
 
     public void start() {
@@ -194,5 +199,17 @@ public class AlarmActivity extends FragmentActivity {
 
             }
         });
+    }
+
+    public Alarm getCurrentlyClickedAlarm() {
+        return currentlyClickedAlarm;
+    }
+
+    public void setCurrentlyClickedAlarm(Alarm currentlyClickedAlarm) {
+        this.currentlyClickedAlarm = currentlyClickedAlarm;
+    }
+
+    public ArrayList<Playlist> getPlaylists() {
+        return (ArrayList) playlists;
     }
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="5dp">
+
+    <RelativeLayout
+        android:focusable="false"
+        android:id="@+id/alarmCard"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:focusable="false"
+            android:id="@+id/alarmTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:text="13:37"
+            android:layout_alignParentTop="true"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:focusable="false"
+            android:id="@+id/alarmSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:checked="true"
+            android:textOff="OFF"
+            android:textOn="ON" />
+
+        <TextView
+            android:focusable="false"
+            android:id="@+id/alarmDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="MÅN TIS ONS TORS FRE LÖR SÖN"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:layout_below="@+id/alarmTime"/>
+
+        <View
+            android:focusable="false"
+            android:id="@+id/divider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/alarmDays"
+            android:alpha="0.12"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@android:color/black"/>
+
+        <TextView
+            android:focusable="false"
+            android:id="@+id/alarmText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="Glöm inte att hänga tvätten i duschen på morgonen. Sen får du verkligen inte glömma att meditera."
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:layout_below="@+id/divider"/>
+
+        <ListView
+            android:layout_marginTop="15dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="15dp"
+            android:id="@+id/list"
+            android:layout_below="@id/alarmText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+        </ListView>
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
