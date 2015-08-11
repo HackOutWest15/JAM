@@ -139,7 +139,6 @@ public class AlarmActivity extends FragmentActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                // TODO: Show fragment with info of this alarm
                 currentlyClickedAlarm = alarms.get(position);
                 DFragment dialogFragment  = new DFragment();
                 // Show Alert DialogFragment
@@ -229,6 +228,10 @@ public class AlarmActivity extends FragmentActivity {
     private void createNewAlarm() {
         Alarm newAlarm = new Alarm();
         adapter.add(newAlarm);
+        currentlyClickedAlarm = newAlarm;
+        DFragment dialogFragment  = new DFragment();
+        // Show Alert DialogFragment
+        dialogFragment.show(supportFragmentManager, "Albins fina dialog");
         //alarms.add(newAlarm);
     }
 }
