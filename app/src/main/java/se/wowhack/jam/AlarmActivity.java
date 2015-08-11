@@ -27,6 +27,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import se.wowhack.jam.models.Alarm;
 import se.wowhack.jam.models.Playlist;
+import se.wowhack.jam.models.Track;
 
 public class AlarmActivity extends FragmentActivity {
 
@@ -36,12 +37,14 @@ public class AlarmActivity extends FragmentActivity {
     private String userId;
     private SpotifyApi api;
     private SpotifyService spotify;
+    private Playlist savedPlaylist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
 
+        savedPlaylist = null;
         /* Retrieve a PendingIntent that will perform a broadcast */
         Intent alarmIntent = getIntent();
         playlists = (ArrayList<Playlist>) alarmIntent.getSerializableExtra("Playlists");
@@ -60,7 +63,7 @@ public class AlarmActivity extends FragmentActivity {
                     String name = (String)((Button) v).getText();
                     for(Playlist item : playlists){
                         if(item.getName().equals(name)){
-                            selectPlaylist(item.getId());
+                            selectPlaylist(item);
                             break;
                         }
                     }
@@ -179,13 +182,18 @@ public class AlarmActivity extends FragmentActivity {
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 1000 * 60, pendingIntent);
     }
-    private void selectPlaylist(String playlistid){
-        spotify.getPlaylist(userId, playlistid, new Callback<kaaes.spotify.webapi.android.models.Playlist>() {
+    //Use this method to add the songs to the playlist
+    private void selectPlaylist(Playlist playlist1){
+        savedPlaylist = playlist1;
+        spotify.getPlaylist(userId, playlist1.getId(), new Callback<kaaes.spotify.webapi.android.models.Playlist>() {
             @Override
             public void success(kaaes.spotify.webapi.android.models.Playlist playlist, Response response) {
+                List<Track> tracks = new ArrayList<Track>();
+
                 for(PlaylistTrack item :playlist.tracks.items){
-                    Log.d("Song:", item.track.name);
+                    tracks.add(new Track(item.track.name, item.track.uri, item.track.id));
                 }
+                savedPlaylist.setTracks(tracks);
             }
 
             @Override
