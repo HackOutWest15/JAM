@@ -4,6 +4,20 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
+    <Button
+        android:id="@+id/gotoAlarms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Goto alarms" />
+
+    <Button
+        android:id="@+id/gotoCards"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Goto cards" />
+
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
@@ -18,12 +32,5 @@
         android:text="Fetching data.."
         android:id="@+id/textView"
         android:gravity="center"/>
-
-    <Button
-        android:id="@+id/gotoCards"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Goto cards" />
 
 </LinearLayout>

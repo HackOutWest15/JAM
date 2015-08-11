@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import se.wowhack.jam.models.Alarm;
+
 public class CardsActivity extends Activity {
     ListView listView ;
 
@@ -22,13 +24,14 @@ public class CardsActivity extends Activity {
         listView = (ListView) findViewById(R.id.list);
 
         // Defined Array values to show in ListView
-        ArrayList<String> values = new ArrayList<>();
-        values.add("1 List View");
-        values.add("2 List View");
-        values.add("3 List View");
-        values.add("4 List View");
-        values.add("5 List View");
-        values.add("6 List View");
+        ArrayList<Alarm> values = new ArrayList<>();
+        values.add(new Alarm());
+        values.add(new Alarm());
+        values.add(new Alarm());
+        values.add(new Alarm());
+        values.add(new Alarm());
+        values.add(new Alarm());
+        values.add(new Alarm());
 
         // Define a new Adapter
         // First parameter - Context

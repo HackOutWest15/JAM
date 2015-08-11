@@ -10,16 +10,18 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class AlarmArrayAdapter extends ArrayAdapter<String> {
+import se.wowhack.jam.models.Alarm;
+
+public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
 
     // declaring our ArrayList of items
-    private ArrayList<String> objects;
+    private ArrayList<Alarm> objects;
 
     /* here we must override the constructor for ArrayAdapter
     * the only variable we care about now is ArrayList<Item> objects,
     * because it is the list of objects we want to display.
     */
-    public AlarmArrayAdapter(Context context, int textViewResourceId, ArrayList<String> objects) {
+    public AlarmArrayAdapter(Context context, int textViewResourceId, ArrayList<Alarm> objects) {
         super(context, textViewResourceId, objects);
         this.objects = objects;
     }
@@ -47,7 +49,7 @@ public class AlarmArrayAdapter extends ArrayAdapter<String> {
 		 *
 		 * Therefore, i refers to the current Item object.
 		 */
-        String i = objects.get(position);
+        Alarm i = objects.get(position);
 
         if (i != null) {
 
@@ -59,7 +61,7 @@ public class AlarmArrayAdapter extends ArrayAdapter<String> {
             // check to see if each individual textview is null.
             // if not, assign some text!
             if (tt != null){
-                tt.setText(i);
+                tt.setText(i.getDescription());
             }
         }
 

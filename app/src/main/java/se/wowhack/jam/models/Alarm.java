@@ -15,7 +15,13 @@ public class Alarm {
     private boolean[] daysActive = {false,false,false,false,false,false,false};
 
     public Alarm(){
-
+        this.playlist = null;
+        this.description = "Description goes here";
+        this.time = 1337;
+        this.active = true;
+        for (int i = 0; i < daysActive.length; i++) {
+            daysActive[i] = true;
+        }
     }
 
     public Alarm(Playlist playlist, String description, int time, boolean active, boolean[] daysActive){

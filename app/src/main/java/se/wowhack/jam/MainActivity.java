@@ -63,8 +63,7 @@ public class MainActivity extends Activity implements
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
-<<<<<<< HEAD
-        findViewById(R.id.gotoAlarm).setOnClickListener(new View.OnClickListener(){
+        findViewById(R.id.gotoAlarms).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 gotoAlarm();
             }
@@ -75,8 +74,6 @@ public class MainActivity extends Activity implements
                 gotoCards();
             }
         });
-=======
->>>>>>> webintegration
     }
 
     @Override
@@ -205,6 +202,11 @@ public class MainActivity extends Activity implements
     }
 
     private void gotoCards() {
+        Intent intent = new Intent(this, CardsActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoAlarm() {
         Intent intent = new Intent(this, CardsActivity.class);
         startActivity(intent);
     }
