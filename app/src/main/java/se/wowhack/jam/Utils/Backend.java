@@ -22,53 +22,22 @@ import retrofit.client.Response;
  */
 public class Backend {
     private static Backend instance = null;
-    SpotifyApi api;
-    SpotifyService spotify;
-    private Backend(String accessToken){
-        api = new SpotifyApi();
-        api.setAccessToken(accessToken);
-        spotify = api.getService();
+    private String accessToken;
+    private Backend(){
+
     }
 
-    public static Backend getInstance(String accessToken){
+    public static Backend getInstance(){
         if(instance == null){
-            instance = new Backend(accessToken);
+            instance = new Backend();
         }
         return instance;
     }
-
-    public void printMyPlaylists(){
-        spotify.getMe(new Callback<UserPrivate>() {
-            @Override
-            public void success(UserPrivate userPrivate, Response response) {
-
-                spotify.getPlaylists(userPrivate.id, new Callback<Pager<PlaylistSimple>>() {
-                    @Override
-                    public void success(Pager<PlaylistSimple> playlistPager, Response response) {
-                        List<PlaylistSimple> playlists = playlistPager.items;
-
-                        for(PlaylistSimple p : playlists){
-                            Log.d("PLAYLIST: ", p.name);
-                        }
-
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.d("Fail", "");
-            }
-        });
+    public void setAccessToken(String accessToken){
+        this.accessToken = accessToken;
     }
-
-    public void getMyPlaylists(){
-
+    public String getAccessToken(){
+        return this.accessToken;
 
     }
 

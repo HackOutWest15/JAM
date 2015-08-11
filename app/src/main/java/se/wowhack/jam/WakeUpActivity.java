@@ -5,11 +5,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.spotify.sdk.android.player.Config;
+import com.spotify.sdk.android.player.ConnectionStateCallback;
+import com.spotify.sdk.android.player.Player;
+import com.spotify.sdk.android.player.PlayerNotificationCallback;
+import com.spotify.sdk.android.player.PlayerState;
+import com.spotify.sdk.android.player.Spotify;
+
+import se.wowhack.jam.Utils.Backend;
 import se.wowhack.jam.util.SystemUiHider;
 
 /**
@@ -18,7 +27,9 @@ import se.wowhack.jam.util.SystemUiHider;
  *
  * @see SystemUiHider
  */
-public class WakeUpActivity extends Activity {
+public class WakeUpActivity extends Activity implements PlayerNotificationCallback, ConnectionStateCallback {
+
+    private Player mPlayer;
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -52,6 +63,23 @@ public class WakeUpActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_wake_up);
+        //Start a player
+        Config playerConfig = new Config(this, Backend.getInstance().getAccessToken(), "d7282f99268d46d7bc87e8006d9de939");
+        mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver() {
+            @Override
+            public void onInitialized(Player player) {
+                mPlayer.addConnectionStateCallback(WakeUpActivity.this);
+                mPlayer.addPlayerNotificationCallback(WakeUpActivity.this);
+                mPlayer.play("spotify:track:2TpxZ7JUBn3uw46aR7qd6V");
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
+            }
+        });
+
+
 
 
 
@@ -111,5 +139,40 @@ public class WakeUpActivity extends Activity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    @Override
+    public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
+
+    }
+
+    @Override
+    public void onPlaybackError(ErrorType errorType, String s) {
+
+    }
+
+    @Override
+    public void onLoggedIn() {
+
+    }
+
+    @Override
+    public void onLoggedOut() {
+
+    }
+
+    @Override
+    public void onLoginFailed(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTemporaryError() {
+
+    }
+
+    @Override
+    public void onConnectionMessage(String s) {
+
     }
 }
