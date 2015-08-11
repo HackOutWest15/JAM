@@ -15,6 +15,7 @@ import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
@@ -27,6 +28,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import se.wowhack.jam.Utils.Backend;
+import se.wowhack.jam.models.Playlist;
 
 public class MainActivity extends Activity implements
         PlayerNotificationCallback, ConnectionStateCallback {
@@ -44,11 +46,13 @@ public class MainActivity extends Activity implements
     private SpotifyApi api;
     private SpotifyService spotify;
     private String spotifyId;
+    private List<Playlist> playLists;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         api = new SpotifyApi();
+        playLists = new ArrayList<>();
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
@@ -78,6 +82,32 @@ public class MainActivity extends Activity implements
                 api.setAccessToken(response.getAccessToken());
                 spotify = api.getService();
 
+                spotify.getMe(new Callback<UserPrivate>() {
+                    @Override
+                    public void success(final UserPrivate userPrivate, Response response) {
+                        spotify.getPlaylists(userPrivate.id, new Callback<Pager<PlaylistSimple>>() {
+                            @Override
+                            public void success(Pager<PlaylistSimple> playlistSimplePager, Response response) {
+                                List<PlaylistSimple> tempPlaylists = playlistSimplePager.items;
+                                for(PlaylistSimple list : tempPlaylists){
+                                    Playlist temp = new Playlist(list.id, null, list.name);
+                                    playLists.add(temp);
+                                }
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
+
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
                 mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver(){
                     @Override
@@ -86,41 +116,7 @@ public class MainActivity extends Activity implements
                         Log.w("Initialized", "Init");
                         mPlayer.addConnectionStateCallback(MainActivity.this);
                         mPlayer.addPlayerNotificationCallback(MainActivity.this);
-                        spotify.getMe(new Callback<UserPrivate>() {
-                            @Override
-                            public void success(final UserPrivate userPrivate, Response response) {
-                                spotify.getPlaylists(userPrivate.id, new Callback<Pager<PlaylistSimple>>() {
-                                    @Override
-                                    public void success(Pager<PlaylistSimple> playlistSimplePager, Response response) {
-                                        spotify.getPlaylistTracks(userPrivate.id, playlistSimplePager.items.get(1).id, new Callback<Pager<PlaylistTrack>>() {
-                                            @Override
-                                            public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
-                                                List<PlaylistTrack> items = playlistTrackPager.items;
-                                                String playString = "spotify:track:"+items.get(0).track.id;
-                                                mPlayer.play(playString);
 
-                                            }
-
-                                            @Override
-                                            public void failure(RetrofitError error) {
-                                                Log.w("ERROR", error.getMessage());
-                                            }
-                                        });
-
-                                    }
-
-                                    @Override
-                                    public void failure(RetrofitError error) {
-
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void failure(RetrofitError error) {
-
-                            }
-                        });
 
                     }
                     @Override

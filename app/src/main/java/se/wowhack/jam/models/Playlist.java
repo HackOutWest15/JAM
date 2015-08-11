@@ -1,5 +1,6 @@
 package se.wowhack.jam.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,11 @@ public class Playlist {
 
     }
     public Playlist(String id, List<Track> tracks, String name){
-        this.tracks = tracks;
+        if(tracks == null){
+            tracks = new ArrayList<>();
+        }else {
+            this.tracks = tracks;
+        }
         this.id = id;
         this.name = name;
     }
