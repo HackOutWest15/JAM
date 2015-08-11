@@ -14,6 +14,20 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import android.view.View;
+
+import java.util.List;
+
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.PlaylistSimple;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
+import kaaes.spotify.webapi.android.models.UserPrivate;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import se.wowhack.jam.Utils.Backend;
+
 public class MainActivity extends Activity implements
         PlayerNotificationCallback, ConnectionStateCallback {
 
@@ -27,15 +41,19 @@ public class MainActivity extends Activity implements
     private static final int REQUEST_CODE = 1337;
 
     private Player mPlayer;
+    private SpotifyApi api;
+    private SpotifyService spotify;
+    private String spotifyId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        api = new SpotifyApi();
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
 
-        builder.setScopes(new String[]{"user-read-private", "streaming"});
+        builder.setScopes(new String[]{"user-read-private", "streaming", "playlist-read-private"});
         AuthenticationRequest request = builder.build();
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
@@ -56,6 +74,10 @@ public class MainActivity extends Activity implements
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
 
             if(response.getType() == AuthenticationResponse.Type.TOKEN){
+                //Init connection to rest api
+                api.setAccessToken(response.getAccessToken());
+                spotify = api.getService();
+
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
                 mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver(){
                     @Override
@@ -64,7 +86,42 @@ public class MainActivity extends Activity implements
                         Log.w("Initialized", "Init");
                         mPlayer.addConnectionStateCallback(MainActivity.this);
                         mPlayer.addPlayerNotificationCallback(MainActivity.this);
-                        mPlayer.play("spotify:track:2nK30KDjrDHRedyIcHTOQS");
+                        spotify.getMe(new Callback<UserPrivate>() {
+                            @Override
+                            public void success(final UserPrivate userPrivate, Response response) {
+                                spotify.getPlaylists(userPrivate.id, new Callback<Pager<PlaylistSimple>>() {
+                                    @Override
+                                    public void success(Pager<PlaylistSimple> playlistSimplePager, Response response) {
+                                        spotify.getPlaylistTracks(userPrivate.id, playlistSimplePager.items.get(1).id, new Callback<Pager<PlaylistTrack>>() {
+                                            @Override
+                                            public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
+                                                List<PlaylistTrack> items = playlistTrackPager.items;
+                                                String playString = "spotify:track:"+items.get(0).track.id;
+                                                mPlayer.play(playString);
+
+                                            }
+
+                                            @Override
+                                            public void failure(RetrofitError error) {
+                                                Log.w("ERROR", error.getMessage());
+                                            }
+                                        });
+
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+
+                            }
+                        });
+
                     }
                     @Override
                     public void onError(Throwable throwable){
