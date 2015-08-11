@@ -6,13 +6,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class AlarmActivity extends FragmentActivity {
 
     private PendingIntent pendingIntent;
+    private List<String> playlistids;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +25,12 @@ public class AlarmActivity extends FragmentActivity {
         setContentView(R.layout.activity_alarm);
 
         /* Retrieve a PendingIntent that will perform a broadcast */
-        Intent alarmIntent = new Intent(AlarmActivity.this, AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
+        Intent alarmIntent = getIntent();
+        playlistids = alarmIntent.getStringArrayListExtra("Playlists");
+        for(String value : playlistids){
+            Log.d("PlaylistId", value);
+        }
+        //pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
 
         findViewById(R.id.startAlarm).setOnClickListener(new View.OnClickListener() {
             @Override

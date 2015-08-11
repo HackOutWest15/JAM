@@ -64,7 +64,7 @@ public class MainActivity extends Activity implements
 
         findViewById(R.id.gotoAlarm).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                gotoAlarm();
+                //gotoAlarm();
             }
         });
     }
@@ -89,10 +89,13 @@ public class MainActivity extends Activity implements
                             @Override
                             public void success(Pager<PlaylistSimple> playlistSimplePager, Response response) {
                                 List<PlaylistSimple> tempPlaylists = playlistSimplePager.items;
+                                ArrayList<String> playlistid = new ArrayList<>();
                                 for(PlaylistSimple list : tempPlaylists){
+                                    playlistid.add(list.id);
                                     Playlist temp = new Playlist(list.id, null, list.name);
                                     playLists.add(temp);
                                 }
+                                gotoAlarm(playlistid);
                             }
 
                             @Override
@@ -112,7 +115,6 @@ public class MainActivity extends Activity implements
                 mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver(){
                     @Override
                     public void onInitialized(Player player){
-                        //Default song shoreline
                         Log.w("Initialized", "Init");
                         mPlayer.addConnectionStateCallback(MainActivity.this);
                         mPlayer.addPlayerNotificationCallback(MainActivity.this);
@@ -184,13 +186,14 @@ public class MainActivity extends Activity implements
         findViewById(R.id.gotoAlarm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotoAlarm();
+                //gotoAlarm();
             }
         });
     }
 
-    private void gotoAlarm() {
+    private void gotoAlarm(ArrayList<String> playlists) {
         Intent intent = new Intent(this, AlarmActivity.class);
+        intent.putStringArrayListExtra("Playlists", playlists);
         startActivity(intent);
     }
 }
