@@ -15,7 +15,8 @@
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:id="@+id/frameLayout">
 
 
 <!--        <android.support.design.widget.FloatingActionButton
@@ -53,23 +54,18 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button"
-            android:layout_gravity="center_horizontal|top" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button2"
-            android:layout_gravity="right|center_vertical" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button3"
+            android:text="Snooze"
+            android:onClick="onSnooze"
+            android:id="@+id/snooze_btn"
             android:layout_gravity="left|center_vertical" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Awake!"
+            android:id="@+id/awake_btn"
+            android:onClick="onAwake"
+            android:layout_gravity="right|center_vertical" />
     </FrameLayout>
 
 </FrameLayout>
