@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -14,9 +13,11 @@ import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
-
+import android.view.View;
 public class MainActivity extends Activity implements
         PlayerNotificationCallback, ConnectionStateCallback {
+
+
 
     private static final String CLIENT_ID = "d7282f99268d46d7bc87e8006d9de939";
     private static final String REDIRECT_URI = "my-first-android-app-login://callback";
@@ -38,6 +39,12 @@ public class MainActivity extends Activity implements
         AuthenticationRequest request = builder.build();
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+
+        findViewById(R.id.gotoAlarm).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                gotoAlarm();
+            }
+        });
     }
 
     @Override
@@ -120,5 +127,17 @@ public class MainActivity extends Activity implements
         Spotify.destroyPlayer(this);
         super.onDestroy();
 
+
+        findViewById(R.id.gotoAlarm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoAlarm();
+            }
+        });
+    }
+
+    private void gotoAlarm() {
+        Intent intent = new Intent(this, AlarmActivity.class);
+        startActivity(intent);
     }
 }
