@@ -8,16 +8,22 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import se.wowhack.jam.models.Playlist;
+
 public class AlarmActivity extends FragmentActivity {
 
     private PendingIntent pendingIntent;
-    private List<String> playlistids;
+    private List<Playlist> playlists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +32,13 @@ public class AlarmActivity extends FragmentActivity {
 
         /* Retrieve a PendingIntent that will perform a broadcast */
         Intent alarmIntent = getIntent();
-        playlistids = alarmIntent.getStringArrayListExtra("Playlists");
-        for(String value : playlistids){
-            Log.d("PlaylistId", value);
+        playlists = (ArrayList<Playlist>) alarmIntent.getSerializableExtra("Playlists");
+        LinearLayout layout = (LinearLayout) findViewById(R.id.lao);
+
+        for(Playlist item : playlists){
+            Button button = new Button(this);
+            button.setText(item.getName());
+            layout.addView(button);
         }
         //pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
 

@@ -46,7 +46,7 @@ public class MainActivity extends Activity implements
     private SpotifyApi api;
     private SpotifyService spotify;
     private String spotifyId;
-    private List<Playlist> playLists;
+    private ArrayList<Playlist> playLists;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,13 +89,11 @@ public class MainActivity extends Activity implements
                             @Override
                             public void success(Pager<PlaylistSimple> playlistSimplePager, Response response) {
                                 List<PlaylistSimple> tempPlaylists = playlistSimplePager.items;
-                                ArrayList<String> playlistid = new ArrayList<>();
                                 for(PlaylistSimple list : tempPlaylists){
-                                    playlistid.add(list.id);
                                     Playlist temp = new Playlist(list.id, null, list.name);
                                     playLists.add(temp);
                                 }
-                                gotoAlarm(playlistid);
+                                gotoAlarm(playLists);
                             }
 
                             @Override
@@ -191,9 +189,9 @@ public class MainActivity extends Activity implements
         });
     }
 
-    private void gotoAlarm(ArrayList<String> playlists) {
+    private void gotoAlarm(ArrayList<Playlist> playlists) {
         Intent intent = new Intent(this, AlarmActivity.class);
-        intent.putStringArrayListExtra("Playlists", playlists);
+        intent.putExtra("Playlists", playlists);
         startActivity(intent);
     }
 }

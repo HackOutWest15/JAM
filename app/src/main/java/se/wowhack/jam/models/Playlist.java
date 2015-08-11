@@ -1,12 +1,13 @@
 package se.wowhack.jam.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by jonathan on 11/08/15.
  */
-public class Playlist {
+public class Playlist implements Serializable{
     private List<Track> tracks;
     private String id;
     private String name;
