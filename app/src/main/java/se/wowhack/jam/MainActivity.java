@@ -28,6 +28,7 @@ import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import se.wowhack.jam.Utils.Backend;
 import se.wowhack.jam.models.Playlist;
 import se.wowhack.jam.models.ProgressBarAnimation;
 
@@ -83,6 +84,7 @@ public class MainActivity extends Activity implements
 
             if(response.getType() == AuthenticationResponse.Type.TOKEN){
                 //Init connection to rest api
+                Backend.getInstance().setAccessToken(response.getAccessToken());
                 api.setAccessToken(response.getAccessToken());
                 spotify = api.getService();
 
