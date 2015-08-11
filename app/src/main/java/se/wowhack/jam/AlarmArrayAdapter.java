@@ -87,4 +87,8 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
 
     }
 
+    public ArrayList<Alarm> getAlarms() {
+        return objects;
+    }
+
 }
