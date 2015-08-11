@@ -43,11 +43,13 @@ public class AlarmActivity extends FragmentActivity {
 
         savedPlaylist = null;
         /* Retrieve a PendingIntent that will perform a broadcast */
-        Intent alarmIntent = getIntent();
-        playlists = (ArrayList<Playlist>) alarmIntent.getSerializableExtra("Playlists");
-        userId = alarmIntent.getStringExtra("Userid");
+        Intent alarmIntent = new Intent(AlarmActivity.this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
+        Intent from = getIntent();
+        playlists = (ArrayList<Playlist>) from.getSerializableExtra("Playlists");
+        userId = from.getStringExtra("Userid");
         api = new SpotifyApi();
-        api.setAccessToken(alarmIntent.getStringExtra("Token"));
+        api.setAccessToken(from.getStringExtra("Token"));
         spotify = api.getService();
         LinearLayout layout = (LinearLayout) findViewById(R.id.lao);
 
