@@ -94,8 +94,10 @@ public class MainActivity extends Activity implements
                             public void success(Pager<PlaylistSimple> playlistSimplePager, Response r) {
                                 List<PlaylistSimple> tempPlaylists = playlistSimplePager.items;
                                 for(PlaylistSimple list : tempPlaylists){
-                                    Playlist temp = new Playlist(list.id, null, list.name);
-                                    playLists.add(temp);
+                                    if(list.owner.equals(userPrivate.id)) {
+                                        Playlist temp = new Playlist(list.id, null, list.name);
+                                        playLists.add(temp);
+                                    }
                                 }
                                 progressBar.clearAnimation();
                                 gotoAlarm(playLists, userPrivate.id, response.getAccessToken());
