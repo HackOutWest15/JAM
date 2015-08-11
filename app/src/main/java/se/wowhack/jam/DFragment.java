@@ -2,13 +2,16 @@ package se.wowhack.jam;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,10 +31,27 @@ public class DFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_alarm_dialog, container,
                 false);
-        // Do something else
 
         currentAlarm = ((AlarmActivity) getActivity()).getCurrentlyClickedAlarm();
         playlists = ((AlarmActivity) getActivity()).getPlaylists();
+
+        TextView alarmTextView = (TextView) rootView.findViewById(R.id.alarmText);
+        TextView alarmTimeView = (TextView) rootView.findViewById(R.id.alarmTime);
+        SwitchCompat alarmSwitchView = (SwitchCompat) rootView.findViewById(R.id.alarmSwitch);
+        TextView alarmDaysView = (TextView) rootView.findViewById(R.id.alarmDays);
+        Button removeButton = (Button) rootView.findViewById(R.id.removeButton);
+
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Dismissar denna bara lyssnaren??
+                ((AlarmActivity) getActivity()).removeAlarm(currentAlarm);
+                dismiss();
+            }
+        });
+
+        alarmTextView.setText(currentAlarm.getDescription());
+        alarmTimeView.setText(currentAlarm.getTime() + "");
 
         // Get ListView object from xml
         listView = (ListView) rootView.findViewById(R.id.list);
