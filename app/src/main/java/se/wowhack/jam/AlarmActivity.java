@@ -18,12 +18,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import se.wowhack.jam.models.Playlist;
 
 public class AlarmActivity extends FragmentActivity {
 
     private PendingIntent pendingIntent;
     private List<Playlist> playlists;
+    private String userId;
+    private SpotifyApi api;
+    private SpotifyService spotify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +42,27 @@ public class AlarmActivity extends FragmentActivity {
         /* Retrieve a PendingIntent that will perform a broadcast */
         Intent alarmIntent = getIntent();
         playlists = (ArrayList<Playlist>) alarmIntent.getSerializableExtra("Playlists");
+        userId = alarmIntent.getStringExtra("Userid");
+        api = new SpotifyApi();
+        api.setAccessToken(alarmIntent.getStringExtra("Token"));
+        spotify = api.getService();
         LinearLayout layout = (LinearLayout) findViewById(R.id.lao);
 
         for(Playlist item : playlists){
             Button button = new Button(this);
             button.setText(item.getName());
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String name = (String)((Button) v).getText();
+                    for(Playlist item : playlists){
+                        if(item.getName().equals(name)){
+                            selectPlaylist(item.getId());
+                            break;
+                        }
+                    }
+                }
+            });
             layout.addView(button);
         }
         //pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
@@ -102,5 +127,20 @@ public class AlarmActivity extends FragmentActivity {
         /* Repeat every 24 hours */
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 1000 * 60, pendingIntent);
+    }
+    private void selectPlaylist(String playlistid){
+        spotify.getPlaylist(userId, playlistid, new Callback<kaaes.spotify.webapi.android.models.Playlist>() {
+            @Override
+            public void success(kaaes.spotify.webapi.android.models.Playlist playlist, Response response) {
+                for(PlaylistTrack item :playlist.tracks.items){
+                    Log.d("Song:", item.track.name);
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
     }
 }

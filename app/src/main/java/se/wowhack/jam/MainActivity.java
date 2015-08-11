@@ -75,7 +75,7 @@ public class MainActivity extends Activity implements
 
         //Check if result comes from the correct activity
         if(requestCode == REQUEST_CODE){
-            AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
+            final AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
 
             if(response.getType() == AuthenticationResponse.Type.TOKEN){
                 //Init connection to rest api
@@ -84,16 +84,16 @@ public class MainActivity extends Activity implements
 
                 spotify.getMe(new Callback<UserPrivate>() {
                     @Override
-                    public void success(final UserPrivate userPrivate, Response response) {
+                    public void success(final UserPrivate userPrivate, Response r) {
                         spotify.getPlaylists(userPrivate.id, new Callback<Pager<PlaylistSimple>>() {
                             @Override
-                            public void success(Pager<PlaylistSimple> playlistSimplePager, Response response) {
+                            public void success(Pager<PlaylistSimple> playlistSimplePager, Response r) {
                                 List<PlaylistSimple> tempPlaylists = playlistSimplePager.items;
                                 for(PlaylistSimple list : tempPlaylists){
                                     Playlist temp = new Playlist(list.id, null, list.name);
                                     playLists.add(temp);
                                 }
-                                gotoAlarm(playLists);
+                                gotoAlarm(playLists, userPrivate.id, response.getAccessToken());
                             }
 
                             @Override
@@ -189,9 +189,11 @@ public class MainActivity extends Activity implements
         });
     }
 
-    private void gotoAlarm(ArrayList<Playlist> playlists) {
+    private void gotoAlarm(ArrayList<Playlist> playlists, String userId, String token) {
         Intent intent = new Intent(this, AlarmActivity.class);
         intent.putExtra("Playlists", playlists);
+        intent.putExtra("Userid", userId);
+        intent.putExtra("Token", token);
         startActivity(intent);
     }
 }
