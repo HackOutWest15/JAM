@@ -18,16 +18,58 @@
         android:fitsSystemWindows="true">
 
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/myFAB"
+<!--        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/awake"
             android:radius="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_launcher"
             app:elevation="4dp"
             android:background="#000000"
-            android:backgroundTint="@drawable/circle" />
+             />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/snooze"
+            android:radius="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher"
+            app:elevation="4dp"
+            android:background="#000000"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/spotify"
+            android:radius="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher"
+            app:elevation="4dp"
+            android:background="#000000"
+             />
+
+    -->
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/button"
+            android:layout_gravity="center_horizontal|top" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/button2"
+            android:layout_gravity="right|center_vertical" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/button3"
+            android:layout_gravity="left|center_vertical" />
     </FrameLayout>
 
 </FrameLayout>
