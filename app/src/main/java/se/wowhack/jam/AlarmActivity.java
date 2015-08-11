@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,11 +25,13 @@ import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import se.wowhack.jam.models.Alarm;
 import se.wowhack.jam.models.Playlist;
 import se.wowhack.jam.models.Track;
 
 public class AlarmActivity extends FragmentActivity {
 
+    private ListView listView;
     private PendingIntent pendingIntent;
     private List<Playlist> playlists;
     private String userId;
@@ -92,6 +95,54 @@ public class AlarmActivity extends FragmentActivity {
                 pickTime();
             }
         });
+
+
+        // Get ListView object from xml
+        listView = (ListView) findViewById(R.id.list);
+
+        // Defined Array values to show in ListView
+        ArrayList<Alarm> values = new ArrayList<>();
+        values.add(new Alarm());
+        values.add(new Alarm());
+        values.add(new Alarm());
+        values.add(new Alarm());
+        values.add(new Alarm());
+        values.add(new Alarm());
+        values.add(new Alarm());
+
+        // Define a new Adapter
+        // First parameter - Context
+        // Second parameter - Layout for the row
+        // Third parameter - ID of the TextView to which the data is written
+        // Forth - the Array of data
+
+        AlarmArrayAdapter adapter = new AlarmArrayAdapter(this, R.layout.layout_card, values);
+
+        // Assign adapter to ListView
+        listView.setAdapter(adapter);
+/*
+        // ListView Item Click Listener
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                // ListView Clicked item index
+                int itemPosition     = position;
+
+                // ListView Clicked item value
+                String  itemValue    = (String) listView.getItemAtPosition(position);
+
+                // Show Alert
+                Toast.makeText(getApplicationContext(),
+                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
+                        .show();
+
+            }
+
+        });
+*/
     }
 
     public void start() {
