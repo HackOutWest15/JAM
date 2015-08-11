@@ -2,20 +2,20 @@ package se.wowhack.jam;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.spotify.sdk.android.player.Config;
-import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
-import android.view.View;
-import android.widget.ProgressBar;
+import com.spotify.sdk.android.player.Spotify;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -207,7 +207,7 @@ public class MainActivity extends Activity implements
     }
 
     private void gotoAlarm() {
-        Intent intent = new Intent(this, CardsActivity.class);
+        Intent intent = new Intent(this, AlarmActivity.class);
         startActivity(intent);
     }
 }
