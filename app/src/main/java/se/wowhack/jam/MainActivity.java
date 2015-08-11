@@ -136,6 +136,9 @@ public class MainActivity extends Activity implements
             }
         }
     }
+    private void playMusic(){
+
+    }
 
     @Override
     public void onLoggedIn() {

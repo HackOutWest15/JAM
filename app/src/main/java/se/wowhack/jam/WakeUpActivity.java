@@ -64,13 +64,14 @@ public class WakeUpActivity extends Activity implements PlayerNotificationCallba
 
         setContentView(R.layout.activity_wake_up);
         //Start a player
+        Log.d("AccessToken:", Backend.getInstance().getAccessToken());
         Config playerConfig = new Config(this, Backend.getInstance().getAccessToken(), "d7282f99268d46d7bc87e8006d9de939");
         mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver() {
             @Override
             public void onInitialized(Player player) {
-                mPlayer.addConnectionStateCallback(WakeUpActivity.this);
-                mPlayer.addPlayerNotificationCallback(WakeUpActivity.this);
-                mPlayer.play("spotify:track:2TpxZ7JUBn3uw46aR7qd6V");
+                player.addConnectionStateCallback(WakeUpActivity.this);
+                player.addPlayerNotificationCallback(WakeUpActivity.this);
+                player.play("spotify:track:2TpxZ7JUBn3uw46aR7qd6V");
             }
 
             @Override
