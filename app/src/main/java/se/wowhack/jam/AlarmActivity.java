@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -32,6 +33,7 @@ import se.wowhack.jam.models.Track;
 public class AlarmActivity extends FragmentActivity {
 
     private ListView listView;
+    private ArrayList<Alarm> alarms;
     private PendingIntent pendingIntent;
     private List<Playlist> playlists;
     private String userId;
@@ -48,32 +50,35 @@ public class AlarmActivity extends FragmentActivity {
         /* Retrieve a PendingIntent that will perform a broadcast */
         Intent alarmIntent = new Intent(AlarmActivity.this, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
-        Intent from = getIntent();
-        playlists = (ArrayList<Playlist>) from.getSerializableExtra("Playlists");
-        userId = from.getStringExtra("Userid");
-        api = new SpotifyApi();
-        api.setAccessToken(from.getStringExtra("Token"));
-        spotify = api.getService();
-        LinearLayout layout = (LinearLayout) findViewById(R.id.lao);
 
-        for(Playlist item : playlists){
-            Button button = new Button(this);
-            button.setText(item.getName());
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String name = (String)((Button) v).getText();
-                    for(Playlist item : playlists){
-                        if(item.getName().equals(name)){
-                            selectPlaylist(item);
-                            break;
+        if(getIntent().getStringExtra("Userid") != null) {
+            Intent from = getIntent();
+            playlists = (ArrayList<Playlist>) from.getSerializableExtra("Playlists");
+            userId = from.getStringExtra("Userid");
+            api = new SpotifyApi();
+            api.setAccessToken(from.getStringExtra("Token"));
+            spotify = api.getService();
+            LinearLayout layout = (LinearLayout) findViewById(R.id.lao);
+
+            for(Playlist item : playlists){
+                Button button = new Button(this);
+                button.setText(item.getName());
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = (String)((Button) v).getText();
+                        for(Playlist item : playlists){
+                            if(item.getName().equals(name)){
+                                selectPlaylist(item);
+                                break;
+                            }
                         }
                     }
-                }
-            });
-            layout.addView(button);
+                });
+                layout.addView(button);
+            }
+            //pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
         }
-        //pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
 
         findViewById(R.id.startAlarm).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,14 +106,13 @@ public class AlarmActivity extends FragmentActivity {
         listView = (ListView) findViewById(R.id.list);
 
         // Defined Array values to show in ListView
-        ArrayList<Alarm> values = new ArrayList<>();
-        values.add(new Alarm());
-        values.add(new Alarm());
-        values.add(new Alarm());
-        values.add(new Alarm());
-        values.add(new Alarm());
-        values.add(new Alarm());
-        values.add(new Alarm());
+        alarms.add(new Alarm());
+        alarms.add(new Alarm());
+        alarms.add(new Alarm());
+        alarms.add(new Alarm());
+        alarms.add(new Alarm());
+        alarms.add(new Alarm());
+        alarms.add(new Alarm());
 
         // Define a new Adapter
         // First parameter - Context
@@ -116,33 +120,20 @@ public class AlarmActivity extends FragmentActivity {
         // Third parameter - ID of the TextView to which the data is written
         // Forth - the Array of data
 
-        AlarmArrayAdapter adapter = new AlarmArrayAdapter(this, R.layout.layout_card, values);
+        AlarmArrayAdapter adapter = new AlarmArrayAdapter(this, R.layout.layout_card, alarms);
 
         // Assign adapter to ListView
         listView.setAdapter(adapter);
-/*
-        // ListView Item Click Listener
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
-                // ListView Clicked item index
-                int itemPosition     = position;
-
-                // ListView Clicked item value
-                String  itemValue    = (String) listView.getItemAtPosition(position);
-
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
-                        .show();
-
+                Alarm clickedAlarm = alarms.get(position);
+                // TODO: Show fragment with info of this alarm
             }
-
         });
-*/
+
     }
 
     public void start() {

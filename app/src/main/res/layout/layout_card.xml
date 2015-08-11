@@ -9,10 +9,13 @@
     android:layout_margin="5dp">
 
     <RelativeLayout
+        android:focusable="false"
+        android:id="@+id/alarmCard"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
         <TextView
+            android:focusable="false"
             android:id="@+id/alarmTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,10 +27,10 @@
             android:layout_alignParentTop="true"/>
 
         <android.support.v7.widget.SwitchCompat
+            android:focusable="false"
             android:id="@+id/alarmSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/alarmTime"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
@@ -36,6 +39,7 @@
             android:textOn="ON" />
 
         <TextView
+            android:focusable="false"
             android:id="@+id/alarmDays"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,6 +50,7 @@
             android:layout_below="@+id/alarmTime"/>
 
         <View
+            android:focusable="false"
             android:id="@+id/divider"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
@@ -57,6 +62,7 @@
             android:background="@android:color/black"/>
 
         <TextView
+            android:focusable="false"
             android:id="@+id/alarmText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
