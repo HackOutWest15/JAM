@@ -41,6 +41,7 @@ public class AlarmActivity extends FragmentActivity {
     private Playlist savedPlaylist;
     private FragmentManager supportFragmentManager = getSupportFragmentManager();
     private Alarm currentlyClickedAlarm;
+    private AlarmArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +123,7 @@ public class AlarmActivity extends FragmentActivity {
         // Third parameter - ID of the TextView to which the data is written
         // Forth - the Array of data
 
-        AlarmArrayAdapter adapter = new AlarmArrayAdapter(this, R.layout.layout_card, alarms);
+        adapter = new AlarmArrayAdapter(this, R.layout.layout_card, alarms);
 
         // Assign adapter to ListView
         listView.setAdapter(adapter);
@@ -211,5 +212,10 @@ public class AlarmActivity extends FragmentActivity {
 
     public ArrayList<Playlist> getPlaylists() {
         return (ArrayList) playlists;
+    }
+
+    public void removeAlarm(Alarm theAlarm) {
+        alarms.remove(theAlarm);
+        adapter.remove(theAlarm);
     }
 }
