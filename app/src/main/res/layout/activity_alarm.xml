@@ -31,5 +31,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/stopAlarm"
         android:text="Set Alarm" />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/alarmSetter"
+        android:layout_centerHorizontal="true">
+        <LinearLayout
+            android:id="@+id/lao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+        </ScrollView>
+
 
 </RelativeLayout>
