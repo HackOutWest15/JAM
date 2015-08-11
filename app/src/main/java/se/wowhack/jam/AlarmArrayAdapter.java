@@ -2,10 +2,12 @@ package se.wowhack.jam;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -56,12 +58,26 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
             // This is how you obtain a reference to the TextViews.
             // These TextViews are created in the XML files we defined.
 
-            TextView tt = (TextView) v.findViewById(R.id.alarmText);
+            TextView alarmTextView = (TextView) v.findViewById(R.id.alarmText);
+            TextView alarmTimeView = (TextView) v.findViewById(R.id.alarmTime);
+            SwitchCompat alarmSwitchView = (SwitchCompat) v.findViewById(R.id.alarmSwitch);
+            TextView alarmDaysView = (TextView) v.findViewById(R.id.alarmDays);
 
-            // check to see if each individual textview is null.
-            // if not, assign some text!
-            if (tt != null){
-                tt.setText(i.getDescription());
+            if (alarmTimeView != null){
+                alarmTimeView.setText("" + i.getTime());
+            }
+            if (alarmSwitchView != null){
+                alarmSwitchView.setChecked(i.isActive());
+            }
+            if (alarmDaysView != null){
+                alarmDaysView.setText("FIXA DETTA YO");
+            }
+            if (i.getDescription() == "") {
+                // TODO: Hide alarmdivider and textview
+            } else {
+                if (alarmTextView != null){
+                    alarmTextView.setText(i.getDescription());
+                }
             }
         }
 
