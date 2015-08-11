@@ -5,11 +5,13 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Toast;
 import java.util.Calendar;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
     private PendingIntent pendingIntent;
 
@@ -36,10 +38,10 @@ public class MainActivity extends Activity {
             }
         });
 
-        findViewById(R.id.stopAlarmAt10).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.alarmSetter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startAt10();
+                pickTime();
             }
         });
     }
@@ -48,8 +50,15 @@ public class MainActivity extends Activity {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         int interval = 1000 * 60;
 
-        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
+        /* Set the alarm to start at 10:30 AM */
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+
+        /* Repeating on interval */
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                interval, pendingIntent);
     }
 
     public void cancel() {
@@ -58,19 +67,22 @@ public class MainActivity extends Activity {
         Toast.makeText(this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
     }
 
-    public void startAt10() {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 1000 * 60;
-
-        /* Set the alarm to start at 10:30 AM */
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 10);
-        calendar.set(Calendar.MINUTE, 30);
-
-        /* Repeating on interval */
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                interval, pendingIntent);
+    public void pickTime() {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
+    public void setAlarm(int pickedHour, int pickedMinute) {
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        /* Set the alarm to start at time set */
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, pickedHour);
+        calendar.set(Calendar.MINUTE, pickedMinute);
+
+        /* Repeat every 24 hours */
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000 * 60, pendingIntent);
+    }
 }

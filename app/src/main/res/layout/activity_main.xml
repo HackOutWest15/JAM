@@ -8,23 +8,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MyActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="hint"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <Button
         android:id="@+id/startAlarm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView"
         android:layout_marginBottom="20dp"
-        android:text="Start Alarm Service" />
+        android:text="Repeat every minute" />
 
     <Button
         android:id="@+id/stopAlarm"
@@ -34,12 +25,11 @@
         android:layout_marginBottom="20dp"
         android:text="Stop Alarm" />
 
-
     <Button
-        android:id="@+id/stopAlarmAt10"
+        android:id="@+id/alarmSetter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/stopAlarm"
-        android:text="Stop Alarm at 10:30" />
+        android:text="Set Alarm" />
 
 </RelativeLayout>
