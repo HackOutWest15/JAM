@@ -2,6 +2,7 @@ package se.wowhack.jam;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -14,19 +15,21 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import android.view.View;
+import android.widget.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
-import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import se.wowhack.jam.Utils.Backend;
+import se.wowhack.jam.models.Playlist;
+import se.wowhack.jam.models.ProgressBarAnimation;
 
 public class MainActivity extends Activity implements
         PlayerNotificationCallback, ConnectionStateCallback {
@@ -44,11 +47,13 @@ public class MainActivity extends Activity implements
     private SpotifyApi api;
     private SpotifyService spotify;
     private String spotifyId;
+    private ArrayList<Playlist> playLists;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         api = new SpotifyApi();
+        playLists = new ArrayList<>();
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
@@ -58,62 +63,51 @@ public class MainActivity extends Activity implements
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
+<<<<<<< HEAD
         findViewById(R.id.gotoAlarm).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 gotoAlarm();
             }
         });
+
+        findViewById(R.id.gotoCards).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                gotoCards();
+            }
+        });
+=======
+>>>>>>> webintegration
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
+                final ProgressBar progressBar = ((ProgressBar) findViewById(R.id.progressBar));
+        ProgressBarAnimation anim = new ProgressBarAnimation(progressBar, 1000, 1);
+        progressBar.startAnimation(anim);
         //Check if result comes from the correct activity
         if(requestCode == REQUEST_CODE){
-            AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
+            final AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
 
             if(response.getType() == AuthenticationResponse.Type.TOKEN){
                 //Init connection to rest api
                 api.setAccessToken(response.getAccessToken());
                 spotify = api.getService();
 
-                Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
-                mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver(){
+                spotify.getMe(new Callback<UserPrivate>() {
                     @Override
-                    public void onInitialized(Player player){
-                        //Default song shoreline
-                        Log.w("Initialized", "Init");
-                        mPlayer.addConnectionStateCallback(MainActivity.this);
-                        mPlayer.addPlayerNotificationCallback(MainActivity.this);
-                        spotify.getMe(new Callback<UserPrivate>() {
+                    public void success(final UserPrivate userPrivate, Response r) {
+                        spotify.getPlaylists(userPrivate.id, new Callback<Pager<PlaylistSimple>>() {
                             @Override
-                            public void success(final UserPrivate userPrivate, Response response) {
-                                spotify.getPlaylists(userPrivate.id, new Callback<Pager<PlaylistSimple>>() {
-                                    @Override
-                                    public void success(Pager<PlaylistSimple> playlistSimplePager, Response response) {
-                                        spotify.getPlaylistTracks(userPrivate.id, playlistSimplePager.items.get(1).id, new Callback<Pager<PlaylistTrack>>() {
-                                            @Override
-                                            public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
-                                                List<PlaylistTrack> items = playlistTrackPager.items;
-                                                String playString = "spotify:track:"+items.get(0).track.id;
-                                                mPlayer.play(playString);
-
-                                            }
-
-                                            @Override
-                                            public void failure(RetrofitError error) {
-                                                Log.w("ERROR", error.getMessage());
-                                            }
-                                        });
-
-                                    }
-
-                                    @Override
-                                    public void failure(RetrofitError error) {
-
-                                    }
-                                });
+                            public void success(Pager<PlaylistSimple> playlistSimplePager, Response r) {
+                                List<PlaylistSimple> tempPlaylists = playlistSimplePager.items;
+                                for(PlaylistSimple list : tempPlaylists){
+                                    Playlist temp = new Playlist(list.id, null, list.name);
+                                    playLists.add(temp);
+                                }
+                                progressBar.clearAnimation();
+                                gotoAlarm(playLists, userPrivate.id, response.getAccessToken());
                             }
 
                             @Override
@@ -121,6 +115,22 @@ public class MainActivity extends Activity implements
 
                             }
                         });
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
+
+                Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
+                mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver(){
+                    @Override
+                    public void onInitialized(Player player){
+                        Log.w("Initialized", "Init");
+                        mPlayer.addConnectionStateCallback(MainActivity.this);
+                        mPlayer.addPlayerNotificationCallback(MainActivity.this);
+
 
                     }
                     @Override
@@ -184,17 +194,18 @@ public class MainActivity extends Activity implements
         Spotify.destroyPlayer(this);
         super.onDestroy();
 
-
-        findViewById(R.id.gotoAlarm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gotoAlarm();
-            }
-        });
     }
 
-    private void gotoAlarm() {
+    private void gotoAlarm(ArrayList<Playlist> playlists, String userId, String token) {
         Intent intent = new Intent(this, AlarmActivity.class);
+        intent.putExtra("Playlists", playlists);
+        intent.putExtra("Userid", userId);
+        intent.putExtra("Token", token);
+        startActivity(intent);
+    }
+
+    private void gotoCards() {
+        Intent intent = new Intent(this, CardsActivity.class);
         startActivity(intent);
     }
 }

@@ -1,11 +1,13 @@
 package se.wowhack.jam.models;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by jonathan on 11/08/15.
  */
-public class Playlist {
+public class Playlist implements Serializable{
     private List<Track> tracks;
     private String id;
     private String name;
@@ -14,7 +16,11 @@ public class Playlist {
 
     }
     public Playlist(String id, List<Track> tracks, String name){
-        this.tracks = tracks;
+        if(tracks == null){
+            tracks = new ArrayList<>();
+        }else {
+            this.tracks = tracks;
+        }
         this.id = id;
         this.name = name;
     }
