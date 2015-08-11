@@ -104,6 +104,13 @@ public class AlarmActivity extends FragmentActivity {
             }
         });
 
+        findViewById(R.id.newAlarmButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewAlarm();
+            }
+        });
+
 
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
@@ -215,7 +222,13 @@ public class AlarmActivity extends FragmentActivity {
     }
 
     public void removeAlarm(Alarm theAlarm) {
-        alarms.remove(theAlarm);
+        //alarms.remove(theAlarm);
         adapter.remove(theAlarm);
+    }
+
+    private void createNewAlarm() {
+        Alarm newAlarm = new Alarm();
+        adapter.add(newAlarm);
+        //alarms.add(newAlarm);
     }
 }

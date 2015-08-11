@@ -176,4 +176,23 @@ public class WakeUpActivity extends Activity implements PlayerNotificationCallba
     public void onConnectionMessage(String s) {
 
     }
+
+    public void onAwake(View view){
+        // turn off music
+        Log.v("WakeUpActivity", "awake");
+
+
+    }
+
+    public void onSnooze(View view){
+        // set alarm in 5 minutes
+        Log.v("WakeUpActivity", "snooze");
+
+    }
+
+    public void nextSong(View view){
+        Log.v("WakeUpActivity", "next");
+
+    }
+
 }
