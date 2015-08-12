@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +62,7 @@ public class DFragment extends DialogFragment {
         TextView alarmTimeView = (TextView) rootView.findViewById(R.id.alarmTime);
         SwitchCompat alarmSwitchView = (SwitchCompat) rootView.findViewById(R.id.alarmSwitch);
         TextView alarmDaysView = (TextView) rootView.findViewById(R.id.alarmDays);
-        Button removeButton = (Button) rootView.findViewById(R.id.removeButton);
+        ImageButton removeButton = (ImageButton) rootView.findViewById(R.id.removeButton);
 
         removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,10 +79,10 @@ public class DFragment extends DialogFragment {
         // Get ListView object from xml
         listView = (ListView) rootView.findViewById(R.id.list);
 
-        alarmSwitchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        alarmSwitchView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // TODO: Fix this shit:   currentAlarm.setActive(isChecked);
+            public void onClick(View v) {
+                currentAlarm.setActive(!currentAlarm.isActive());
             }
         });
 
