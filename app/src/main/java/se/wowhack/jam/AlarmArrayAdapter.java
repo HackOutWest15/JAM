@@ -20,6 +20,7 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
 
     // declaring our ArrayList of items
     private ArrayList<Alarm> objects;
+    private Context mContext;
     final String[] dayNames = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
 
     /* here we must override the constructor for ArrayAdapter
@@ -29,6 +30,7 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
     public AlarmArrayAdapter(Context context, int textViewResourceId, ArrayList<Alarm> objects) {
         super(context, textViewResourceId, objects);
         this.objects = objects;
+        this.mContext = context;
     }
 
     /*
@@ -71,7 +73,9 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
                 @Override
                 public void onClick(View v) {
                     AlarmArrayAdapter.this.objects.get(position).setActive(!AlarmArrayAdapter.this.objects.get(position).isActive());
-                    Log.d("#######", "set to " + AlarmArrayAdapter.this.objects.get(position).isActive());
+                    if(AlarmArrayAdapter.this.objects.get(position).isActive()){
+                        ((AlarmActivity)mContext).setAlarm(AlarmArrayAdapter.this.objects.get(position));
+                    }
                 }
             });
 
@@ -111,5 +115,6 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
     public ArrayList<Alarm> getAlarms() {
         return objects;
     }
+
 
 }

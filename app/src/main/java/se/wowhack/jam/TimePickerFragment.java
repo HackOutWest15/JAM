@@ -35,7 +35,7 @@ public class TimePickerFragment extends DialogFragment
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-        ((AlarmActivity) getActivity()).setAlarm(hourOfDay, minuteOfHour);
+        //((AlarmActivity) getActivity()).setAlarm(hourOfDay, minuteOfHour);
         alarm.setMinute(minuteOfHour);
         alarm.setHour(hourOfDay);
         frag.notifyUpdate();
@@ -47,5 +47,6 @@ public class TimePickerFragment extends DialogFragment
     public void setListener(DFragment frag){
         Log.d("####", "Listener set");
         this.frag = frag;
+
     }
 }
