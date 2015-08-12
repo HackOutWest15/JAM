@@ -159,9 +159,21 @@ public class DFragment extends DialogFragment {
         super.onPause();
         TextView alarmTextView = (TextView)getView().findViewById(R.id.alarmTime);
         String alarmTime = alarmTextView.getText().toString();
-        String time = currentAlarm.getTime().get(Calendar.HOUR_OF_DAY) + ":" + currentAlarm.getTime().get(Calendar.MINUTE);
+
+        String timeString = "";
+        if (currentAlarm.getTime().get(Calendar.HOUR_OF_DAY) <= 9) {
+            timeString = "0" + currentAlarm.getTime().get(Calendar.HOUR_OF_DAY);
+        } else {
+            timeString = "" + currentAlarm.getTime().get(Calendar.HOUR_OF_DAY);
+        }
+        timeString = timeString + ":";
+        if (currentAlarm.getTime().get(Calendar.MINUTE) <= 9) {
+            timeString = timeString + "0" + currentAlarm.getTime().get(Calendar.MINUTE);
+        } else {
+            timeString = timeString + currentAlarm.getTime().get(Calendar.MINUTE);
+        }
         Toast.makeText(getActivity().getApplicationContext(),
-                "Alarm set at " + time, Toast.LENGTH_LONG)
+                "Alarm set at " + timeString, Toast.LENGTH_LONG)
                 .show();
 
         currentAlarm.setDescription(((TextView)getView().findViewById(R.id.alarmText)).getText().toString());
@@ -175,7 +187,19 @@ public class DFragment extends DialogFragment {
     public void notifyUpdate(){
         Log.d("###", "Notified");
         TextView alarmTextView = (TextView)getView().findViewById(R.id.alarmTime);
-        alarmTextView.setText(currentAlarm.getTime().get(Calendar.HOUR_OF_DAY) + ":" + (currentAlarm.getTime().get(Calendar.MINUTE)));
 
+        String timeString = "";
+        if (currentAlarm.getTime().get(Calendar.HOUR_OF_DAY) <= 9) {
+            timeString = "0" + currentAlarm.getTime().get(Calendar.HOUR_OF_DAY);
+        } else {
+            timeString = "" + currentAlarm.getTime().get(Calendar.HOUR_OF_DAY);
+        }
+        timeString = timeString + ":";
+        if (currentAlarm.getTime().get(Calendar.MINUTE) <= 9) {
+            timeString = timeString + "0" + currentAlarm.getTime().get(Calendar.MINUTE);
+        } else {
+            timeString = timeString + currentAlarm.getTime().get(Calendar.MINUTE);
+        }
+        alarmTextView.setText(timeString);
     }
 }

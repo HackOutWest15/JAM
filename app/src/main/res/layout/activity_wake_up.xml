@@ -1,6 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="se.wowhack.jam.WakeUpActivity"
     >
@@ -28,9 +29,9 @@
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:id="@+id/frameLayout"
-        android:src="@drawable/background"
+        android:src="@drawable/background_cropped"
         android:scaleType = "centerCrop"
-        android:background="@drawable/background">
+        android:background="@drawable/background_cropped">
 
 
 <!--        <android.support.design.widget.FloatingActionButton
@@ -75,11 +76,12 @@
 
         <Button
             android:id="@+id/snooze_btn"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:alpha="0.9"
             android:layout_gravity="left|center_vertical"
             android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/roundedbutton2"
@@ -87,19 +89,16 @@
             android:includeFontPadding="false"
             android:gravity="center"
             android:onClick="onSnooze"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:text="Snooze"
-            android:textSize="15dp"
             />
-
-
 
         <Button
             android:id="@+id/awake_btn"
-            android:layout_width="70dp"
+            android:layout_width="125dp"
+            android:alpha="0.9"
             android:layout_gravity="right|center_vertical"
-            android:layout_height="70dp"
-            android:textSize="15dp"
+            android:layout_height="125dp"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
             android:layout_alignParentBottom="true"
@@ -108,7 +107,7 @@
             android:textColor="#FFFFFF"
             android:includeFontPadding="false"
             android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:text="Awake!"
             android:onClick="onAwake"
             ></Button>
