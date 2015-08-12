@@ -59,10 +59,10 @@ public class DFragment extends DialogFragment {
         // Get ListView object from xml
         listView = (ListView) rootView.findViewById(R.id.list);
 
-        alarmSwitchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        alarmSwitchView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // TODO: Fix this shit:   currentAlarm.setActive(isChecked);
+            public void onClick(View v) {
+                currentAlarm.setActive(!currentAlarm.isActive());
             }
         });
 
