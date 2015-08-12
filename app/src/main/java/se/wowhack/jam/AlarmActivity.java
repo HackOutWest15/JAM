@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -100,7 +99,7 @@ public class AlarmActivity extends FragmentActivity {
         findViewById(R.id.alarmSetter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pickTime();
+                //pickTime();
             }
         });
 
@@ -169,10 +168,7 @@ public class AlarmActivity extends FragmentActivity {
         Toast.makeText(this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
     }
 
-    public void pickTime() {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "timePicker");
-    }
+
 
     public void setAlarm(int pickedHour, int pickedMinute) {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -235,4 +231,6 @@ public class AlarmActivity extends FragmentActivity {
         dialogFragment.show(supportFragmentManager, "Albins fina dialog");
         //alarms.add(newAlarm);
     }
+
+
 }

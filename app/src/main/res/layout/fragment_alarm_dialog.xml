@@ -9,13 +9,14 @@
     card_view:cardElevation="5dp">
 
     <RelativeLayout
-        android:focusable="false"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:id="@+id/alarmCard"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
         <TextView
-            android:focusable="false"
+            android:focusable="true"
             android:id="@+id/alarmTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,8 +25,9 @@
             android:layout_marginTop="15dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:text="13:37"
-            android:layout_alignParentTop="true"/>
-
+            android:layout_alignParentTop="true"
+            android:editable="true"
+            />
         <Button
             android:id="@+id/removeButton"
             android:layout_width="45dp"

@@ -9,8 +9,12 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
+import se.wowhack.jam.models.Alarm;
+
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
+
+    private Alarm alarm;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -24,7 +28,12 @@ public class TimePickerFragment extends DialogFragment
                 DateFormat.is24HourFormat(getActivity()));
     }
 
+    public void setAlarm(Alarm alarm){
+        this.alarm = alarm;
+    }
+
     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
         ((AlarmActivity) getActivity()).setAlarm(hourOfDay, minuteOfHour);
+        alarm.setTime(minuteOfHour);
     }
 }
