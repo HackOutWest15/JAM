@@ -80,7 +80,19 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
             });
 
             if (alarmTimeView != null){
-                alarmTimeView.setText("" + i.getTime().get(Calendar.HOUR_OF_DAY) + ":" + i.getTime().get(Calendar.MINUTE));
+                String timeString = "";
+                if (i.getTime().get(Calendar.HOUR_OF_DAY) <= 9) {
+                    timeString = "0" + i.getTime().get(Calendar.HOUR_OF_DAY);
+                } else {
+                    timeString = "" + i.getTime().get(Calendar.HOUR_OF_DAY);
+                }
+                timeString = timeString + ":";
+                if (i.getTime().get(Calendar.MINUTE) <= 9) {
+                    timeString = timeString + "0" + i.getTime().get(Calendar.MINUTE);
+                } else {
+                    timeString = timeString + i.getTime().get(Calendar.MINUTE);
+                }
+                alarmTimeView.setText(timeString);
             }
 
             if (alarmSwitchView != null){
