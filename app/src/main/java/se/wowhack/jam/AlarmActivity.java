@@ -120,8 +120,12 @@ public class AlarmActivity extends FragmentActivity {
                 interval, pendingIntent);
     }
 
-    public void cancel() {
+    public void cancel(Alarm alarm) {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        alarmIntent.setAction("alarmAction"+alarm.toString());
+        alarmIntent.putExtra("Playlist", alarm.getPlaylist().getId());
+        pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
         manager.cancel(pendingIntent);
         Toast.makeText(this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
     }
@@ -131,21 +135,16 @@ public class AlarmActivity extends FragmentActivity {
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
-    public void setAlarm(int pickedHour, int pickedMinute) {
+    public void setAlarm(Alarm alarm) {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        /* Set the alarm to start at time set */
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, pickedHour);
-        calendar.set(Calendar.MINUTE, pickedMinute);
         /* Retrieve a PendingIntent that will perform a broadcast */
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        alarmIntent.setAction("alarmAction");
-        alarmIntent.putExtra("Playlist", savedPlaylist);
+        alarmIntent.setAction("alarmAction"+alarm.toString());
+        alarmIntent.putExtra("Playlist", alarm.getPlaylist().getId());
         pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
         /* Repeat every 24 hours */
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, alarm.getTime().getTimeInMillis(),
                 1000 * 60 * 60 * 24, pendingIntent);
     }
     //Use this method to add the songs to the playlist

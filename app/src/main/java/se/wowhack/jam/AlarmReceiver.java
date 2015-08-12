@@ -12,7 +12,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("alarmAction")) {
+        if (intent.getAction().substring(0,11).equals("alarmAction")) {
             Log.d("Playlist from alarmReceiver", intent.getStringExtra("Playlist"));
 
             Log.d("#################", "Larm fired event");

@@ -93,6 +93,7 @@ public class DFragment extends DialogFragment {
                                         int position, long id) {
 
                     // ListView Clicked item index
+                    currentAlarm.setPlaylist(playlists.get(position));
                     ((AlarmActivity)getActivity()).selectPlaylist(playlists.get(position));
                     int itemPosition     = position;
 
