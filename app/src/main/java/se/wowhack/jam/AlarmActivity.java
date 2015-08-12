@@ -188,7 +188,7 @@ public class AlarmActivity extends FragmentActivity {
                 1000 * 60 * 60 * 24, pendingIntent);
     }
     //Use this method to add the songs to the playlist
-    private void selectPlaylist(Playlist playlist1) {
+    public void selectPlaylist(Playlist playlist1) {
         savedPlaylist = playlist1;
         spotify.getPlaylist(userId, playlist1.getId(), new Callback<kaaes.spotify.webapi.android.models.Playlist>() {
             @Override
