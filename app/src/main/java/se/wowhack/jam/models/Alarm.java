@@ -2,6 +2,7 @@ package se.wowhack.jam.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -10,21 +11,25 @@ import java.util.List;
 public class Alarm {
     private Playlist playlist;
     private String description;
-    private int time;
+    private Calendar time;
     private boolean active;
     private boolean[] daysActive = {false,false,false,false,false,false,false};
 
     public Alarm(){
         this.playlist = null;
-        this.description = "Description goes here";
-        this.time = 1337;
+        this.description = "";
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        this.time = calendar;
         this.active = true;
         for (int i = 0; i < daysActive.length; i++) {
             daysActive[i] = true;
         }
     }
 
-    public Alarm(Playlist playlist, String description, int time, boolean active, boolean[] daysActive){
+    public Alarm(Playlist playlist, String description, Calendar time, boolean active, boolean[] daysActive){
         this.playlist = playlist;
         this.description = description;
         this.time = time;
@@ -48,12 +53,16 @@ public class Alarm {
         this.description = description;
     }
 
-    public int getTime() {
+    public Calendar getTime() {
         return time;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setHour(int hour) {
+        time.set(Calendar.HOUR_OF_DAY, hour);
+    }
+
+    public void setMinute(int minute) {
+        time.set(Calendar.MINUTE, minute);
     }
 
     public boolean isActive() {

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import se.wowhack.jam.models.Alarm;
@@ -52,7 +53,7 @@ public class DFragment extends DialogFragment {
         });
 
         alarmTextView.setText(currentAlarm.getDescription());
-        alarmTimeView.setText(currentAlarm.getTime() + "");
+        alarmTimeView.setText("" + currentAlarm.getTime().get(Calendar.HOUR_OF_DAY) + ":" + currentAlarm.getTime().get(Calendar.MINUTE));
 
         // Get ListView object from xml
         listView = (ListView) rootView.findViewById(R.id.list);
