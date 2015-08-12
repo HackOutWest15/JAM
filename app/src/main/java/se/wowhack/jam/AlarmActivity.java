@@ -61,48 +61,8 @@ public class AlarmActivity extends FragmentActivity {
             api = new SpotifyApi();
             api.setAccessToken(from.getStringExtra("Token"));
             spotify = api.getService();
-            LinearLayout layout = (LinearLayout) findViewById(R.id.lao);
-
-            for(Playlist item : playlists){
-                Button button = new Button(this);
-                button.setText(item.getName());
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = (String)((Button) v).getText();
-                        for(Playlist item : playlists){
-                            if(item.getName().equals(name)){
-                                selectPlaylist(item);
-                                break;
-                            }
-                        }
-                    }
-                });
-                layout.addView(button);
-            }
             //pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
         }
-
-        findViewById(R.id.startAlarm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                start();
-            }
-        });
-
-        findViewById(R.id.stopAlarm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancel();
-            }
-        });
-
-        findViewById(R.id.alarmSetter).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pickTime();
-            }
-        });
 
         findViewById(R.id.newAlarmButton).setOnClickListener(new View.OnClickListener() {
             @Override
