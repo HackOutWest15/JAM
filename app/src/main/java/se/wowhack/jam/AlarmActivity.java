@@ -138,8 +138,11 @@ public class AlarmActivity extends FragmentActivity {
 
         /* Retrieve a PendingIntent that will perform a broadcast */
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        alarmIntent.setAction("alarmAction" + alarm.toString());
-        alarmIntent.putExtra("Playlist", alarm.getPlaylist().getId());
+
+        alarmIntent.setAction("alarmAction"+alarm.toString());
+        if(alarm.getPlaylist() != null) {
+            alarmIntent.putExtra("Playlist", alarm.getPlaylist().getId());
+        }
         pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
         /* Repeat every 24 hours */
         manager.setRepeating(AlarmManager.RTC_WAKEUP, alarm.getTime().getTimeInMillis(),
