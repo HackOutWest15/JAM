@@ -66,6 +66,7 @@ public class WakeUpActivity extends Activity implements PlayerNotificationCallba
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_wake_up);
+        Log.d("PlaylistId:" , ""+getIntent().getStringExtra("Playlist"));
         //Start a player
         Log.d("AccessToken:", Backend.getInstance().getAccessToken());
         Config playerConfig = new Config(this, Backend.getInstance().getAccessToken(), "d7282f99268d46d7bc87e8006d9de939");

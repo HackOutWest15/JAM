@@ -29,6 +29,9 @@ public class WakeUpService extends Service {
 
         Intent i = new Intent(this, WakeUpActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if(intent.getStringExtra("Playlist") != null){
+            i.putExtra("Playlist", intent.getStringExtra("Playlist"));
+        }
         startActivity(i);
         // stopped, so return sticky.
         return START_STICKY;
