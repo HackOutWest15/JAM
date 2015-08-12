@@ -78,6 +78,7 @@ public class WakeUpActivity extends Activity implements PlayerNotificationCallba
                     player.play("spotify:track:5XsMz0YfEaHZE0MTb1aujs");
                 }
                 else{
+                    Backend.getInstance().getStored().shuffleTracks();
                     player.play(Backend.getInstance().getStored().getTracks());
                 }
             }

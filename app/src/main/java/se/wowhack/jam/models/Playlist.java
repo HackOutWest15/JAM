@@ -2,6 +2,7 @@ package se.wowhack.jam.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -48,5 +49,10 @@ public class Playlist implements Serializable{
 
     public void setTracks(List<String> tracks) {
         this.tracks = tracks;
+    }
+
+    public void shuffleTracks(){
+        Collections.shuffle(tracks);
+
     }
 }
