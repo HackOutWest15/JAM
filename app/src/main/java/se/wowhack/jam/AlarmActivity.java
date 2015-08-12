@@ -99,21 +99,7 @@ public class AlarmActivity extends FragmentActivity {
         });
     }
 
-    public void start() {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 1000 * 60;
 
-        /* Set the alarm to start at 10:30 AM */
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-
-
-        /* Repeating on interval */
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                interval, pendingIntent);
-    }
 
     public void cancel(Alarm alarm) {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
