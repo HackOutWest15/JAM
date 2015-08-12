@@ -65,6 +65,7 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
             TextView alarmTimeView = (TextView) v.findViewById(R.id.alarmTime);
             SwitchCompat alarmSwitchView = (SwitchCompat) v.findViewById(R.id.alarmSwitch);
             TextView alarmDaysView = (TextView) v.findViewById(R.id.alarmDays);
+            View alarmDivider = v.findViewById(R.id.divider);
 
             alarmSwitchView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -91,8 +92,11 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
                 alarmDaysView.setText(days);
             }
             if (i.getDescription() == "") {
-                // TODO: Hide alarmdivider and textview
+                alarmTextView.setVisibility(View.INVISIBLE);
+                alarmDivider.setVisibility(View.INVISIBLE);
             } else {
+                alarmTextView.setVisibility(View.VISIBLE);
+                alarmDivider.setVisibility(View.VISIBLE);
                 if (alarmTextView != null){
                     alarmTextView.setText(i.getDescription());
                 }
