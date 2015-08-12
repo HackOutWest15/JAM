@@ -25,6 +25,7 @@ import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import se.wowhack.jam.Utils.Backend;
 import se.wowhack.jam.models.Alarm;
 import se.wowhack.jam.models.Playlist;
 import se.wowhack.jam.models.Track;
@@ -193,12 +194,13 @@ public class AlarmActivity extends FragmentActivity {
         spotify.getPlaylist(userId, playlist1.getId(), new Callback<kaaes.spotify.webapi.android.models.Playlist>() {
             @Override
             public void success(kaaes.spotify.webapi.android.models.Playlist playlist, Response response) {
-                List<Track> tracks = new ArrayList<Track>();
+                List<String> tracks = new ArrayList<>();
 
                 for (PlaylistTrack item : playlist.tracks.items) {
-                    tracks.add(new Track(item.track.name, item.track.uri, item.track.id));
+                    tracks.add(item.track.uri);
                 }
                 savedPlaylist.setTracks(tracks);
+                Backend.getInstance().setStored(savedPlaylist);
             }
 
             @Override

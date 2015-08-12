@@ -3,6 +3,7 @@ package se.wowhack.jam;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.util.Log;
@@ -17,6 +18,8 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import com.spotify.sdk.android.player.Spotify;
+
+import java.util.Timer;
 
 import se.wowhack.jam.Utils.Backend;
 import se.wowhack.jam.util.SystemUiHider;
@@ -71,12 +74,42 @@ public class WakeUpActivity extends Activity implements PlayerNotificationCallba
             public void onInitialized(Player player) {
                 player.addConnectionStateCallback(WakeUpActivity.this);
                 player.addPlayerNotificationCallback(WakeUpActivity.this);
-                player.play("spotify:track:5XsMz0YfEaHZE0MTb1aujs");
+                if(Backend.getInstance().getStored() == null || Backend.getInstance().getStored().getTracks().size() == 0) {
+                    player.play("spotify:track:5XsMz0YfEaHZE0MTb1aujs");
+                }
+                else{
+                    player.play(Backend.getInstance().getStored().getTracks());
+                }
             }
 
             @Override
             public void onError(Throwable throwable) {
                 Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
+            }
+        });
+
+        findViewById(R.id.awake_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPlayer.shutdown();
+            }
+        });
+        findViewById(R.id.snooze_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPlayer.pause();
+                new CountDownTimer(30000, 1000) {//CountDownTimer(edittext1.getText()+edittext2.getText()) also parse it to long
+
+                    public void onTick(long millisUntilFinished) {
+
+                        //here you can have your logic to set text to edittext
+                    }
+
+                    public void onFinish() {
+                        mPlayer.resume();
+                    }
+                }
+                        .start();
             }
         });
 

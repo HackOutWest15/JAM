@@ -8,14 +8,14 @@ import java.util.List;
  * Created by jonathan on 11/08/15.
  */
 public class Playlist implements Serializable{
-    private List<Track> tracks;
+    private List<String> tracks;
     private String id;
     private String name;
 
     public Playlist(){
 
     }
-    public Playlist(String id, List<Track> tracks, String name){
+    public Playlist(String id, List<String> tracks, String name){
         if(tracks == null){
             tracks = new ArrayList<>();
         }else {
@@ -41,12 +41,12 @@ public class Playlist implements Serializable{
         this.name = name;
     }
 
-    public List<Track> getTracks() {
+    public List<String> getTracks() {
 
         return tracks;
     }
 
-    public void setTracks(List<Track> tracks) {
+    public void setTracks(List<String> tracks) {
         this.tracks = tracks;
     }
 }
