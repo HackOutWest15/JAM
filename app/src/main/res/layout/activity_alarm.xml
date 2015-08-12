@@ -27,6 +27,7 @@
         android:background="@drawable/roundedbutton"
         android:textColor="#FFFFFF"
         android:includeFontPadding="false"
+        android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
         android:text="+" />
 </RelativeLayout>
