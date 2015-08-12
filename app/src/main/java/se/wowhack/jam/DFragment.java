@@ -160,9 +160,9 @@ public class DFragment extends DialogFragment {
         TextView alarmTextView = (TextView)getView().findViewById(R.id.alarmTime);
         String alarmTime = alarmTextView.getText().toString();
         String time = currentAlarm.getTime().get(Calendar.HOUR_OF_DAY) + ":" + currentAlarm.getTime().get(Calendar.MINUTE);
-        Toast.makeText(getActivity().getApplicationContext(),
-                "Alarm set at " + time, Toast.LENGTH_LONG)
-                .show();
+        //Toast.makeText(getActivity().getApplicationContext(),
+                //"Alarm set at " + time, Toast.LENGTH_LONG)
+                //.show();
 
         currentAlarm.setDescription(((TextView)getView().findViewById(R.id.alarmText)).getText().toString());
         ((AlarmActivity)getActivity()).notifyChanged();

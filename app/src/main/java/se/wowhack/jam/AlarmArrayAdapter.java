@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -75,6 +76,9 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
                     AlarmArrayAdapter.this.objects.get(position).setActive(!AlarmArrayAdapter.this.objects.get(position).isActive());
                     if(AlarmArrayAdapter.this.objects.get(position).isActive()){
                         ((AlarmActivity)mContext).setAlarm(AlarmArrayAdapter.this.objects.get(position));
+                        String time = AlarmArrayAdapter.this.objects.get(position).getTime().get(Calendar.HOUR_OF_DAY)+
+                                ":" + AlarmArrayAdapter.this.objects.get(position).getTime().get(Calendar.MINUTE);
+                        Toast.makeText(mContext, "Alarm set at " + time, Toast.LENGTH_LONG).show();
                     }
                 }
             });
