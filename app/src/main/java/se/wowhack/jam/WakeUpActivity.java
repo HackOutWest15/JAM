@@ -30,6 +30,7 @@ import se.wowhack.jam.util.SystemUiHider;
 public class WakeUpActivity extends Activity implements PlayerNotificationCallback, ConnectionStateCallback {
 
     private Player mPlayer;
+    PowerManager.WakeLock wl;
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -61,7 +62,7 @@ public class WakeUpActivity extends Activity implements PlayerNotificationCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getActionBar().hide();
         setContentView(R.layout.activity_wake_up);
         Log.d("PlaylistId:" , ""+getIntent().getStringExtra("Playlist"));
         //Start a player
@@ -128,7 +129,7 @@ public class WakeUpActivity extends Activity implements PlayerNotificationCallba
         window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Tag");
+        wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Tag");
 
         wl.acquire();
     }
@@ -171,6 +172,23 @@ public class WakeUpActivity extends Activity implements PlayerNotificationCallba
     public void onAwake(View view){
         // turn off music
         Log.v("WakeUpActivity", "awake");
+        Window window = this.getWindow();
+
+
+
+        WindowManager.LayoutParams params = this.getWindow().getAttributes();
+
+        /** Turn off: */
+        params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+        //TODO Store original brightness value
+        params.screenBrightness = 00;
+        this.getWindow().setAttributes(params);
+
+
+
+
+        wl.release();
+
 
 
     }
