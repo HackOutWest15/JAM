@@ -163,7 +163,10 @@ public class DFragment extends DialogFragment {
                 "Alarm set!" + currentAlarm.getTime(), Toast.LENGTH_LONG)
                 .show();
 
+        currentAlarm.setDescription(((TextView)getView().findViewById(R.id.alarmText)).getText().toString());
         ((AlarmActivity)getActivity()).notifyChanged();
+        ((AlarmActivity)getActivity()).setAlarm(currentAlarm);
+
 
 
     }
