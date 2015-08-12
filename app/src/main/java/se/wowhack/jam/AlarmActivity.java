@@ -49,10 +49,7 @@ public class AlarmActivity extends FragmentActivity {
         setContentView(R.layout.activity_alarm);
 
         savedPlaylist = null;
-        /* Retrieve a PendingIntent that will perform a broadcast */
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        alarmIntent.setAction("alarmAction");
-        pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
+
 
         if(getIntent().getStringExtra("Userid") != null) {
             Intent from = getIntent();
@@ -142,7 +139,11 @@ public class AlarmActivity extends FragmentActivity {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, pickedHour);
         calendar.set(Calendar.MINUTE, pickedMinute);
-
+        /* Retrieve a PendingIntent that will perform a broadcast */
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        alarmIntent.setAction("alarmAction");
+        alarmIntent.putExtra("Playlist", savedPlaylist);
+        pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
         /* Repeat every 24 hours */
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 1000 * 60 * 60 * 24, pendingIntent);

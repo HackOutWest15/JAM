@@ -13,6 +13,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("alarmAction")) {
+            Log.d("Playlist from alarmReceiver", intent.getStringExtra("Playlist"));
 
             Log.d("#################", "Larm fired event");
             // For our recurring task, we'll just display a message
