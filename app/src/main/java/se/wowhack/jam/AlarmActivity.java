@@ -9,8 +9,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -60,48 +58,12 @@ public class AlarmActivity extends FragmentActivity {
             api = new SpotifyApi();
             api.setAccessToken(from.getStringExtra("Token"));
             spotify = api.getService();
-            LinearLayout layout = (LinearLayout) findViewById(R.id.lao);
-
-            for(Playlist item : playlists){
-                Button button = new Button(this);
-                button.setText(item.getName());
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = (String)((Button) v).getText();
-                        for(Playlist item : playlists){
-                            if(item.getName().equals(name)){
-                                selectPlaylist(item);
-                                break;
-                            }
-                        }
-                    }
-                });
-                layout.addView(button);
-            }
             //pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
         }
 
-        findViewById(R.id.startAlarm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                start();
-            }
-        });
 
-        findViewById(R.id.stopAlarm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancel();
-            }
-        });
 
-        findViewById(R.id.alarmSetter).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //pickTime();
-            }
-        });
+
 
         findViewById(R.id.newAlarmButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,7 +146,7 @@ public class AlarmActivity extends FragmentActivity {
                 1000 * 60 * 60 * 24, pendingIntent);
     }
     //Use this method to add the songs to the playlist
-    private void selectPlaylist(Playlist playlist1) {
+    public void selectPlaylist(Playlist playlist1) {
         savedPlaylist = playlist1;
         spotify.getPlaylist(userId, playlist1.getId(), new Callback<kaaes.spotify.webapi.android.models.Playlist>() {
             @Override

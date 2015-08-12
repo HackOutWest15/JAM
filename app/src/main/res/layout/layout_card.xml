@@ -23,7 +23,6 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:text="13:37"
             android:layout_alignParentTop="true"/>
 
         <android.support.v7.widget.SwitchCompat
@@ -45,7 +44,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:text="MÅN TIS ONS TORS FRE LÖR SÖN"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:layout_below="@+id/alarmTime"/>
 
@@ -70,7 +68,6 @@
             android:layout_marginTop="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
-            android:text="Glöm inte att hänga tvätten i duschen på morgonen. Sen får du verkligen inte glömma att meditera."
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:layout_below="@+id/divider"/>
 

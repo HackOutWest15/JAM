@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import se.wowhack.jam.models.Alarm;
 import se.wowhack.jam.models.Playlist;
@@ -50,6 +51,7 @@ public class DFragment extends DialogFragment {
                         .show();
 
                 ((TimePickerFragment)newFragment).setAlarm(DFragment.this.currentAlarm);
+                ((TimePickerFragment)newFragment).setListener(DFragment.this);
             }
         });
         currentAlarm = ((AlarmActivity) getActivity()).getCurrentlyClickedAlarm();
@@ -71,7 +73,7 @@ public class DFragment extends DialogFragment {
         });
 
         alarmTextView.setText(currentAlarm.getDescription());
-        alarmTimeView.setText(currentAlarm.getTime() + "");
+        alarmTimeView.setText("" + currentAlarm.getTime().get(Calendar.HOUR_OF_DAY) + ":" + currentAlarm.getTime().get(Calendar.MINUTE));
 
         // Get ListView object from xml
         listView = (ListView) rootView.findViewById(R.id.list);
@@ -111,6 +113,7 @@ public class DFragment extends DialogFragment {
                                         int position, long id) {
 
                     // ListView Clicked item index
+                    ((AlarmActivity)getActivity()).selectPlaylist(playlists.get(position));
                     int itemPosition     = position;
 
                     // ListView Clicked item value
@@ -143,6 +146,14 @@ public class DFragment extends DialogFragment {
                 "Alarm set!" + currentAlarm.getTime(), Toast.LENGTH_LONG)
                 .show();
 
+
+
+    }
+
+    public void notifyUpdate(){
+        Log.d("###", "Notified");
+        TextView alarmTextView = (TextView)getView().findViewById(R.id.alarmTime);
+        alarmTextView.setText(currentAlarm.getTime().get(Calendar.HOUR_OF_DAY) + ":" + (currentAlarm.getTime().get(Calendar.MINUTE)));
 
     }
 }
