@@ -72,7 +72,20 @@ public class DFragment extends DialogFragment {
         });
 
         alarmTextView.setText(currentAlarm.getDescription());
-        alarmTimeView.setText("" + currentAlarm.getTime().get(Calendar.HOUR_OF_DAY) + ":" + currentAlarm.getTime().get(Calendar.MINUTE));
+
+        String timeString = "";
+        if (currentAlarm.getTime().get(Calendar.HOUR_OF_DAY) <= 9) {
+            timeString = "0" + currentAlarm.getTime().get(Calendar.HOUR_OF_DAY);
+        } else {
+            timeString = "" + currentAlarm.getTime().get(Calendar.HOUR_OF_DAY);
+        }
+        timeString = timeString + ":";
+        if (currentAlarm.getTime().get(Calendar.MINUTE) <= 9) {
+            timeString = timeString + "0" + currentAlarm.getTime().get(Calendar.MINUTE);
+        } else {
+            timeString = timeString + currentAlarm.getTime().get(Calendar.MINUTE);
+        }
+        alarmTimeView.setText(timeString);
 
         // Get ListView object from xml
         listView = (ListView) rootView.findViewById(R.id.list);
