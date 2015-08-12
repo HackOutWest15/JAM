@@ -3,14 +3,13 @@ package se.wowhack.jam;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import se.wowhack.jam.models.Alarm;
 import se.wowhack.jam.models.Playlist;
@@ -35,6 +33,26 @@ public class DFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_alarm_dialog, container,
                 false);
 
+
+        final TextView timePickView = (TextView) rootView.findViewById(R.id.alarmTime);
+        Log.d("####", "Text: " + timePickView.getText().toString());
+
+        timePickView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("#####", "Should show timepicker");
+
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(DFragment.this.getActivity().getSupportFragmentManager(), "timePicker");
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Showing timepicker!", Toast.LENGTH_LONG)
+                        .show();
+
+                ((TimePickerFragment)newFragment).setAlarm(DFragment.this.currentAlarm);
+                ((TimePickerFragment)newFragment).setListener(DFragment.this);
+            }
+        });
         currentAlarm = ((AlarmActivity) getActivity()).getCurrentlyClickedAlarm();
         playlists = ((AlarmActivity) getActivity()).getPlaylists();
 
@@ -113,5 +131,30 @@ public class DFragment extends DialogFragment {
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         return rootView;
+    }
+
+
+
+    @Override
+    public void onPause(){
+        // Show Alert
+
+        super.onPause();
+        TextView alarmTextView = (TextView)getView().findViewById(R.id.alarmTime);
+        String alarmTime = alarmTextView.getText().toString();
+        Toast.makeText(getActivity().getApplicationContext(),
+                "Alarm set!" + currentAlarm.getTime(), Toast.LENGTH_LONG)
+                .show();
+
+        ((AlarmActivity)getActivity()).notifyChanged();
+
+
+    }
+
+    public void notifyUpdate(){
+        Log.d("###", "Notified");
+        TextView alarmTextView = (TextView)getView().findViewById(R.id.alarmTime);
+        alarmTextView.setText(currentAlarm.getTime().get(Calendar.HOUR_OF_DAY) + ":" + (currentAlarm.getTime().get(Calendar.MINUTE)));
+
     }
 }

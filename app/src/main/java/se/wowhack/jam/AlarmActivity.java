@@ -5,13 +5,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -60,6 +57,10 @@ public class AlarmActivity extends FragmentActivity {
             spotify = api.getService();
             //pendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, alarmIntent, 0);
         }
+
+
+
+
 
         findViewById(R.id.newAlarmButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,16 +125,14 @@ public class AlarmActivity extends FragmentActivity {
         Toast.makeText(this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
     }
 
-    public void pickTime() {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "timePicker");
-    }
+
 
     public void setAlarm(Alarm alarm) {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         /* Retrieve a PendingIntent that will perform a broadcast */
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+
         alarmIntent.setAction("alarmAction"+alarm.toString());
         if(alarm.getPlaylist() != null) {
             alarmIntent.putExtra("Playlist", alarm.getPlaylist().getId());
@@ -190,5 +189,9 @@ public class AlarmActivity extends FragmentActivity {
         // Show Alert DialogFragment
         dialogFragment.show(supportFragmentManager, "Albins fina dialog");
         //alarms.add(newAlarm);
+    }
+
+    public void notifyChanged(){
+        adapter.notifyDataSetChanged();
     }
 }
