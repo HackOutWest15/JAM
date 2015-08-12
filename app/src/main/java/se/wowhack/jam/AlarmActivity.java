@@ -28,7 +28,6 @@ import retrofit.client.Response;
 import se.wowhack.jam.Utils.Backend;
 import se.wowhack.jam.models.Alarm;
 import se.wowhack.jam.models.Playlist;
-import se.wowhack.jam.models.Track;
 
 public class AlarmActivity extends FragmentActivity {
 
@@ -186,7 +185,7 @@ public class AlarmActivity extends FragmentActivity {
 
         /* Repeat every 24 hours */
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                1000 * 60, pendingIntent);
+                1000 * 60 * 60 * 24, pendingIntent);
     }
     //Use this method to add the songs to the playlist
     private void selectPlaylist(Playlist playlist1) {
