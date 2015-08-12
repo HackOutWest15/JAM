@@ -90,6 +90,10 @@ public class DFragment extends DialogFragment {
         // Get ListView object from xml
         listView = (ListView) rootView.findViewById(R.id.list);
 
+        if (alarmSwitchView != null){
+            alarmSwitchView.setChecked(currentAlarm.isActive());
+        }
+
         alarmSwitchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
