@@ -17,7 +17,7 @@ public class Alarm {
 
     public Alarm(){
         this.playlist = null;
-        this.description = "";
+        this.description = "Placeholder text here yolo";
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 0);

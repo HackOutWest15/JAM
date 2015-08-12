@@ -74,12 +74,6 @@ public class AlarmActivity extends FragmentActivity {
 
         // Defined Array values to show in ListView
         alarms.add(new Alarm());
-        alarms.add(new Alarm());
-        alarms.add(new Alarm());
-        alarms.add(new Alarm());
-        alarms.add(new Alarm());
-        alarms.add(new Alarm());
-        alarms.add(new Alarm());
 
         // Define a new Adapter
         // First parameter - Context
