@@ -91,7 +91,7 @@ public class WakeUpActivity extends Activity implements PlayerNotificationCallba
             @Override
             public void onClick(View v) {
                 mPlayer.shutdown();
-                navigateBack();
+                //navigateBack();
 
             }
         });
