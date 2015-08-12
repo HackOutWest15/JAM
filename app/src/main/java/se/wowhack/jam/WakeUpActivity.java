@@ -2,6 +2,7 @@ package se.wowhack.jam;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.PowerManager;
@@ -90,6 +91,8 @@ public class WakeUpActivity extends Activity implements PlayerNotificationCallba
             @Override
             public void onClick(View v) {
                 mPlayer.shutdown();
+                //navigateBack();
+
             }
         });
         findViewById(R.id.snooze_btn).setOnClickListener(new View.OnClickListener() {
@@ -170,6 +173,11 @@ public class WakeUpActivity extends Activity implements PlayerNotificationCallba
         Log.v("WakeUpActivity", "awake");
 
 
+    }
+
+    public void navigateBack(){
+        Intent intent = new Intent(this, AlarmActivity.class);
+        startActivity(intent);
     }
 
     public void onSnooze(View view){
