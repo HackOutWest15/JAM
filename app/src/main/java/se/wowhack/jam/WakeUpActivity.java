@@ -90,7 +90,8 @@ public class WakeUpActivity extends Activity implements PlayerNotificationCallba
         findViewById(R.id.awake_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayer.shutdown();
+                mPlayer.pause();
+                mPlayer.clearQueue();
                 //navigateBack();
 
             }
