@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -148,6 +146,7 @@ public class DFragment extends DialogFragment {
                 "Alarm set!" + currentAlarm.getTime(), Toast.LENGTH_LONG)
                 .show();
 
+        ((AlarmActivity)getActivity()).notifyChanged();
 
 
     }
